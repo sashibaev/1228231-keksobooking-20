@@ -74,22 +74,15 @@ var createRandomLength = function (intA, intB, list) {
   return listRandom;
 };
 
-/* шаблон объявления */
-var pin = document.querySelector('#pin')
-                  .content
-                  .querySelector('.map__pin');
-
-/* Функция клонирования шаблона объявления */
 var createCloneElement = function () {
   markElement = pin.cloneNode(true);
   return markElement;
 };
 
-/* Функция создания метки объявления */
 var createNewElement = function (src, alt, coordinatesX, coordinatesY) {
   markElement.querySelector('img').src = src;
   markElement.querySelector('img').alt = alt;
-  markElement.setAttribute('style', 'left:' + coordinatesX + '; top:' + coordinatesY);
+  markElement.setAttribute('style', 'left: ' + coordinatesX + 'px; top: ' + coordinatesY + 'px');
 
   return markElement;
 };
@@ -112,7 +105,11 @@ var aannouncement = createNewArray(8, avatar, title, address, price, typeHouse, 
 var map = document.querySelector('.map');
 map.classList.remove('map--faded');
 
-var mapPins = document.querySelector('.map-pins'); /* Элемент, куда будем клонировать объявления */
+var pin = document.querySelector('#pin')
+                  .content
+                  .querySelector('.map__pin');
+
+var mapPins = document.querySelector('.map__pins');
 var markElement;
 var fragment = document.createDocumentFragment();
 
@@ -127,5 +124,5 @@ for (var i = 0; i < aannouncement.length; i++) {
 
   fragment.appendChild(markElement);
 }
-console.log(fragment);
+
 mapPins.appendChild(fragment);
