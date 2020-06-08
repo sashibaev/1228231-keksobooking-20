@@ -65,19 +65,16 @@ var createNewArray = function (arrayLength, avatar, title, address, price, typeH
 };
 
 var createRandomLength = function (intA, intB, list) {
-  var randomLength = getRandomNumber(intA, intB);
-  var listRandom = [];
-  for (var i = 0; i < randomLength; i++) {
-    listRandom[i] = list[i];
-  }
-  listRandom = listRandom.toString();
-  return listRandom;
+  var intC = getRandomNumber(intA, intB);
+  list.slice(intA, intC);
+  return list;
 };
 
 var createCloneElement = function () {
-  markElement = pin.cloneNode(true);
-  return markElement;
+  return pin.cloneNode(true);
 };
+
+var markElement;
 
 var createNewElement = function (src, alt, coordinatesX, coordinatesY) {
   markElement.querySelector('img').src = src;
@@ -87,20 +84,7 @@ var createNewElement = function (src, alt, coordinatesX, coordinatesY) {
   return markElement;
 };
 
-var avatar = AVATAR;
-var title = TITLE;
-var address = ADDRESS;
-var price = PRICE;
-var typeHouse = TYPE_HOUSE;
-var rooms = ROOMS;
-var guest = GUEST;
-var checkin = CHECKIN;
-var checkout = CHECKOUT;
-var features = FEATURES;
-var description = DESCRIPTION;
-var photos = PHOTOS;
-
-var aannouncement = createNewArray(8, avatar, title, address, price, typeHouse, rooms, guest, checkin, checkout, features, description, photos);
+var aannouncement = createNewArray(8, AVATAR, TITLE, ADDRESS, PRICE, TYPE_HOUSE, ROOMS, GUEST, CHECKIN, CHECKOUT, FEATURES, DESCRIPTION, PHOTOS);
 
 var map = document.querySelector('.map');
 map.classList.remove('map--faded');
@@ -110,19 +94,18 @@ var pin = document.querySelector('#pin')
                   .querySelector('.map__pin');
 
 var mapPins = document.querySelector('.map__pins');
-var markElement;
 var fragment = document.createDocumentFragment();
 
-for (var i = 0; i < aannouncement.length; i++) {
+aannouncement.forEach(function (item, i) {
   var src = aannouncement[i].author.avatar;
   var alt = aannouncement[i].offer.title;
   var coordinatesX = aannouncement[i].location.x + OFFSET_BY_X;
   var coordinatesY = aannouncement[i].location.y + OFFSET_BY_Y;
 
-  createCloneElement(pin);
+  markElement = createCloneElement(pin);
   createNewElement(src, alt, coordinatesX, coordinatesY);
 
   fragment.appendChild(markElement);
-}
+});
 
 mapPins.appendChild(fragment);
