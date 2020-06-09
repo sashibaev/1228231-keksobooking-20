@@ -70,18 +70,58 @@ var createRandomLength = function (intA, intB, list) {
   return list;
 };
 
-var createCloneElement = function () {
-  return pin.cloneNode(true);
+var createCloneElement = function (element) {
+  return element.cloneNode(true);
 };
 
 var markElement;
 
-var createNewElement = function (src, alt, coordinatesX, coordinatesY) {
-  markElement.querySelector('img').src = src;
+var createNewElementMark = function (srcAvatar, alt, coordinatesX, coordinatesY) {
+  markElement.querySelector('img').src = srcAvatar;
   markElement.querySelector('img').alt = alt;
   markElement.setAttribute('style', 'left: ' + coordinatesX + 'px; top: ' + coordinatesY + 'px');
 
   return markElement;
+};
+
+var cardElement;
+
+var createNewElementCard = function (title, address, price, type, rooms, guest, checkin, checkout, features, description, srcPhoto, srcAvatar) {
+  var textRooms = ' комнаты для ';
+  var textGuest = ' гостей';
+
+  if (rooms === 1) {
+    textRooms = ' комната для ';
+  }
+
+  if (guest === 1) {
+    textGuest = ' гостя';
+  }
+
+  cardElement.querySelector('.popup__title').textContent = title;
+  cardElement.querySelector('.popup__text--address').textContent = address;
+  cardElement.querySelector('.popup__text--price').textContent = price + '₽/ночь';
+  cardElement.querySelector('.popup__type').textContent = type;
+  cardElement.querySelector('.popup__text--capacity').textContent = rooms + textRooms + guest + textGuest;
+  cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + checkin + ', Выезд до ' + checkout;
+  cardElement.querySelector('.popup__features').textContent = features;
+  cardElement.querySelector('.popup__description').textContent = description;
+  cardElement.querySelector('.popup__photo').src = srcPhoto;
+  cardElement.querySelector('.popup__avatar').src = srcAvatar;
+
+  if (price === '') {
+    cardElement.querySelector('.popup__text--price').textContent = '';
+  }
+
+  if (rooms === '' || guest === '') {
+    cardElement.querySelector('.popup__text--capacity').textContent = '';
+  }
+
+  if (checkin === '' || checkout === '') {
+    cardElement.querySelector('.popup__text--time').textContent = '';
+  }
+
+  return cardElement;
 };
 
 var aannouncement = createNewArray(8, AVATAR, TITLE, ADDRESS, PRICE, TYPE_HOUSE, ROOMS, GUEST, CHECKIN, CHECKOUT, FEATURES, DESCRIPTION, PHOTOS);
@@ -96,16 +136,44 @@ var pin = document.querySelector('#pin')
 var mapPins = document.querySelector('.map__pins');
 var fragment = document.createDocumentFragment();
 
+var card = document.querySelector('#card')
+                  .content
+                  .querySelector('.map__card');
+
+var mapFilter = document.querySelector('.map__filters-container');
+
 aannouncement.forEach(function (item, i) {
-  var src = aannouncement[i].author.avatar;
+  var srcAvatar = aannouncement[i].author.avatar;
   var alt = aannouncement[i].offer.title;
   var coordinatesX = aannouncement[i].location.x + OFFSET_BY_X;
   var coordinatesY = aannouncement[i].location.y + OFFSET_BY_Y;
 
   markElement = createCloneElement(pin);
-  createNewElement(src, alt, coordinatesX, coordinatesY);
+  createNewElementMark(srcAvatar, alt, coordinatesX, coordinatesY);
 
   fragment.appendChild(markElement);
 });
 
 mapPins.appendChild(fragment);
+
+for (var i = 0; i < 1; i++) {
+  var title = aannouncement[i].offer.title;
+  var address = aannouncement[i].offer.address;
+  var price = aannouncement[i].offer.price;
+  var type = aannouncement[i].offer.type;
+  var rooms = aannouncement[i].offer.rooms;
+  var guest = aannouncement[i].offer.guest;
+  var checkin = aannouncement[i].offer.checkin;
+  var checkout = aannouncement[i].offer.checkout;
+  var features = aannouncement[i].offer.features;
+  var description = aannouncement[i].offer.description;
+  var srcPhoto = aannouncement[i].offer.photos;
+  var srcAvatar = aannouncement[i].author.avatar;
+
+  cardElement = createCloneElement(card);
+  createNewElementCard(title, address, price, type, rooms, guest, checkin, checkout, features, description, srcPhoto, srcAvatar);
+
+  fragment.appendChild(cardElement);
+}
+
+map.insertBefore(fragment, mapFilter);
