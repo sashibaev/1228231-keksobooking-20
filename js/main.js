@@ -84,38 +84,44 @@ var createNewElementMark = function (srcAvatar, alt, coordinatesX, coordinatesY)
   return markElement;
 };
 
+var checkingCondition = function (value, text1, text2) {
+  if (value === 1) {
+    var textValue = text1;
+  } else {
+    textValue = text2;
+  }
+  return textValue;
+};
+
+var checkingTheTextMissing = function (value1, value2, value3, value4, value5, value6) {
+  if (value1 === '' || value2 === '') {
+    var textContent = '';
+  } else {
+    textContent = value3 + value4 + value5 + value6;
+  }
+  return textContent;
+};
+
 var cardElement;
 
 var createNewElementCard = function (title, address, price, type, rooms, guest, checkin, checkout, features, description, srcPhoto, srcAvatar) {
-  var textRooms = ' комнаты для ';
-  var textGuest = ' гостей';
+  var textRooms1 = ' комната для ';
+  var textRooms2 = ' комнаты для ';
+  var textGuest1 = ' гостя';
+  var textGuest2 = ' гостей';
+  var textPrice = '₽/ночь';
+  var textCheckin = 'Заезд после ';
+  var textCheckout = ', Выезд до ';
 
-  if (rooms === 1) {
-    textRooms = ' комната для ';
-  }
-
-  if (guest === 1) {
-    textGuest = ' гостя';
-  }
-
-  if (price === '') {
-    cardElement.querySelector('.popup__text--price').textContent = '';
-  }
-
-  if (rooms === '' || guest === '') {
-    cardElement.querySelector('.popup__text--capacity').textContent = '';
-  }
-
-  if (checkin === '' || checkout === '') {
-    cardElement.querySelector('.popup__text--time').textContent = '';
-  }
+  var textRooms = checkingCondition(rooms, textRooms1, textRooms2);
+  var textGuest = checkingCondition(guest, textGuest1, textGuest2);
 
   cardElement.querySelector('.popup__title').textContent = title;
   cardElement.querySelector('.popup__text--address').textContent = address;
-  cardElement.querySelector('.popup__text--price').textContent = price + '₽/ночь';
+  cardElement.querySelector('.popup__text--price').textContent = checkingTheTextMissing(price, null, price, textPrice, '', '');
   cardElement.querySelector('.popup__type').textContent = type;
-  cardElement.querySelector('.popup__text--capacity').textContent = rooms + textRooms + guest + textGuest;
-  cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + checkin + ', Выезд до ' + checkout;
+  cardElement.querySelector('.popup__text--capacity').textContent = checkingTheTextMissing(rooms, guest, rooms, textRooms, guest, textGuest);
+  cardElement.querySelector('.popup__text--time').textContent = checkingTheTextMissing(checkin, checkout, textCheckin, checkin, textCheckout, checkout);
   cardElement.querySelector('.popup__features').textContent = features;
   cardElement.querySelector('.popup__description').textContent = description;
   cardElement.querySelector('.popup__photo').src = srcPhoto;
