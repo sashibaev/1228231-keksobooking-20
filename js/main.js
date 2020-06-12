@@ -13,7 +13,7 @@ var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditio
 var DESCRIPTION = ['Описание номера объявление первое', 'Описание номера объявление второе', 'Описание номера объявление третье', 'Описание номера объявление четвертое', 'Описание номера объявление пятое', 'Описание номера объявление шестое', 'Описание номера объявление седьмое', 'Описание номера объявление восьмое'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var OFFSET_BY_X = 20;
-var OFFSET_BY_Y = 30;
+var OFFSET_BY_Y = 60;
 
 var getRandomNumber = function (intA, intB) {
   return (intA + Math.floor(Math.random() * intB));
@@ -146,6 +146,7 @@ var createNewElementCard = function (title, address, price, type, rooms, guest, 
 var aannouncement = createNewArray(8, AVATAR, TITLE, ADDRESS, PRICE, TYPE_HOUSE, ROOMS, GUEST, CHECKIN, CHECKOUT, FEATURES, DESCRIPTION, PHOTOS);
 
 var adForm = document.querySelector('.ad-form');
+adForm.setAttribute('action', 'https://javascript.pages.academy/keksobooking');
 var formFieldset = adForm.querySelectorAll('fieldset');
 
 for (var j = 0; j < formFieldset.length; j++) {
