@@ -4,37 +4,42 @@ var AVATAR = ['img/avatars/user01.png', 'img/avatars/user02.png', 'img/avatars/u
 var TITLE = ['Заголовок предложения объявления номер один', 'Заголовок предложения объявления номер два', 'Заголовок предложения объявления номер три', 'Заголовок предложения объявления номер четыре', 'Заголовок предложения объявления номер пять', 'Заголовок предложения объявления номер шесть', 'Заголовок предложения объявления номер семь', 'Заголовок предложения объявления номер восемь'];
 var PRICE = [500, 400, 300, 200, 100, 250, 350, 450];
 var TYPE_HOUSE = ['palace', 'flat', 'house', 'bungalo', 'house', 'bungalo', 'flat', 'flat'];
-var ADDRESS = ['600, 350', '500, 250', '400, 350', '500, 350', '600, 250', '400, 250', '600,300', '500,300'];
-var ROOMS = [1, 2, 3, 3, 2, 2, 1, 2];
-var GUEST = [1, 2, 3, 4, 5, 4, 5, 3];
+var ADDRESS = ['600, 350', '500, 250', '400, 350', '500, 350', '600, 250', '400, 250', '600, 300', '500, 300'];
+var ROOMS = [1, 2, 3, 3, 2, 3, 2, 100];
+var GUEST = [1, 2, 3, 2, 1, 1, 1, 0];
 var CHECKIN = ['12:00', '13:00', '14:00', '12:00', '12:00', '13:00', '14:00', '12:00'];
 var CHECKOUT = ['12:00', '13:00', '14:00', '12:00', '13:00', '14:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var DESCRIPTION = ['Описание номера объявление первое', 'Описание номера объявление второе', 'Описание номера объявление третье', 'Описание номера объявление четвертое', 'Описание номера объявление пятое', 'Описание номера объявление шестое', 'Описание номера объявление седьмое', 'Описание номера объявление восьмое'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var OFFSET_BY_X = 20;
-var OFFSET_BY_Y = 30;
+var OFFSET_BY_Y = 60;
+
+var markElement;
+var alt;
+var coordinatesX;
+var coordinatesY;
 
 var getRandomNumber = function (intA, intB) {
   return (intA + Math.floor(Math.random() * intB));
 };
 
-var createNewArray = function (arrayLength, avatar, title, address, price, typeHouse, rooms, guest, checkin, checkout, features, description, photos) {
+var createNewArray = function (arrayLength, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value11, value12) {
   var newArray = [];
 
   for (var i = 0; i < arrayLength; i++) {
-    var avatarArray = avatar[i];
-    var titleArray = title[i];
-    var addressArray = address[i];
-    var priceArray = price[i];
-    var typeHouseArray = typeHouse[i];
-    var roomsArray = rooms[i];
-    var guestArray = guest[i];
-    var checkinArray = checkin[i];
-    var checkoutArray = checkout[i];
-    var featuresArray = createRandomLength(0, 6, features);
-    var descriptionArray = description[i];
-    var photosArray = createRandomLength(0, 3, photos);
+    var avatarArray = value1[i];
+    var titleArray = value2[i];
+    var addressArray = value3[i];
+    var priceArray = value4[i];
+    var typeHouseArray = value5[i];
+    var roomsArray = value6[i];
+    var guestArray = value7[i];
+    var checkinArray = value8[i];
+    var checkoutArray = value9[i];
+    var featuresArray = createRandomLength(0, 6, value10);
+    var descriptionArray = value11[i];
+    var photosArray = createRandomLength(0, 3, value12);
     var xCoordinatesArray = getRandomNumber(0, 1200);
     var yCoordinatesArray = getRandomNumber(130, 500);
 
@@ -74,48 +79,67 @@ var createCloneElement = function (element) {
   return element.cloneNode(true);
 };
 
-var markElement;
-
-var createNewElementMark = function (srcAvatar, alt, coordinatesX, coordinatesY) {
-  markElement.querySelector('.map__pin img').src = srcAvatar;
-  markElement.querySelector('.map__pin img').alt = alt;
-  markElement.setAttribute('style', 'left: ' + coordinatesX + 'px; top: ' + coordinatesY + 'px');
+var createNewElementMark = function (value1, value2, value3, value4) {
+  markElement.querySelector('.map__pin img').src = value1;
+  markElement.querySelector('.map__pin img').alt = value2;
+  markElement.setAttribute('style', 'left: ' + value3 + 'px; top: ' + value4 + 'px');
 
   return markElement;
+};
+
+var addAttributeDisabled = function (element, index) {
+  element[index].setAttribute('disabled', 'disabled');
+  return element[index];
+};
+
+var removeAttributeDisabled = function (element, index) {
+  element[index].removeAttribute('disabled', 'disabled');
+  return element[index];
+};
+
+/* Закомментировали, согласно условию задания */
+/*
+var checkingCondition = function (value, text1, text2, text3) {
+  if (value === 1) {
+    var textValue = text1;
+  } else if (value === 100) {
+    textValue = text3;
+  } else {
+    textValue = text2;
+  }
+  return textValue;
+};
+
+var checkingTheTextMissing = function (value1, value2, value3, value4, value5, value6) {
+  if (value1 === '' || value2 === '') {
+    var textContent = '';
+  } else {
+    textContent = value3 + value4 + value5 + value6;
+  }
+  return textContent;
 };
 
 var cardElement;
 
 var createNewElementCard = function (title, address, price, type, rooms, guest, checkin, checkout, features, description, srcPhoto, srcAvatar) {
-  var textRooms = ' комнаты для ';
-  var textGuest = ' гостей';
+  var textRooms1 = ' комната для ';
+  var textRooms2 = ' комнаты для ';
+  var textRooms3 = ' комнат ';
+  var textGuest1 = ' гостя';
+  var textGuest2 = ' гостей';
+  var textPrice = '₽/ночь';
+  var textCheckin = 'Заезд после ';
+  var textCheckout = ', Выезд до ';
 
-  if (rooms === 1) {
-    textRooms = ' комната для ';
-  }
-
-  if (guest === 1) {
-    textGuest = ' гостя';
-  }
-
-  if (price === '') {
-    cardElement.querySelector('.popup__text--price').textContent = '';
-  }
-
-  if (rooms === '' || guest === '') {
-    cardElement.querySelector('.popup__text--capacity').textContent = '';
-  }
-
-  if (checkin === '' || checkout === '') {
-    cardElement.querySelector('.popup__text--time').textContent = '';
-  }
+  var textRooms = checkingCondition(rooms, textRooms1, textRooms2, textRooms3);
+  var textGuest = checkingCondition(guest, textGuest1, textGuest2, '');
 
   cardElement.querySelector('.popup__title').textContent = title;
   cardElement.querySelector('.popup__text--address').textContent = address;
-  cardElement.querySelector('.popup__text--price').textContent = price + '₽/ночь';
+  cardElement.querySelector('.popup__text--price').textContent = checkingTheTextMissing(price, null, price, textPrice, '', '');
   cardElement.querySelector('.popup__type').textContent = type;
-  cardElement.querySelector('.popup__text--capacity').textContent = rooms + textRooms + guest + textGuest;
-  cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + checkin + ', Выезд до ' + checkout;
+  cardElement.querySelector('.popup__text--capacity').textContent = checkingTheTextMissing(rooms, guest, rooms, textRooms, guest, textGuest);
+  cardElement.querySelector('.popup__text--time').textContent = checkingTheTextMissing(checkin, checkout, textCheckin, checkin, textCheckout, checkout);
   cardElement.querySelector('.popup__features').textContent = features;
   cardElement.querySelector('.popup__description').textContent = description;
   cardElement.querySelector('.popup__photo').src = srcPhoto;
@@ -123,11 +147,23 @@ var createNewElementCard = function (title, address, price, type, rooms, guest, 
 
   return cardElement;
 };
+*/
 
 var aannouncement = createNewArray(8, AVATAR, TITLE, ADDRESS, PRICE, TYPE_HOUSE, ROOMS, GUEST, CHECKIN, CHECKOUT, FEATURES, DESCRIPTION, PHOTOS);
 
-var map = document.querySelector('.map');
-map.classList.remove('map--faded');
+var adForm = document.querySelector('.ad-form');
+adForm.setAttribute('action', 'https://javascript.pages.academy/keksobooking');
+var formFieldset = adForm.querySelectorAll('fieldset');
+
+for (var j = 0; j < formFieldset.length; j++) {
+  addAttributeDisabled(formFieldset, j);
+}
+
+var formMapFilters = document.querySelector('.map__filters');
+
+for (j = 0; j < formMapFilters.childNodes.length; j++) {
+  addAttributeDisabled(formMapFilters, j);
+}
 
 var pin = document.querySelector('#pin')
                   .content
@@ -136,25 +172,14 @@ var pin = document.querySelector('#pin')
 var mapPins = document.querySelector('.map__pins');
 var fragment = document.createDocumentFragment();
 
+/* Закомментировали, согласно условию задания */
+/*
 var card = document.querySelector('#card')
                   .content
                   .querySelector('.map__card');
 
+var map = document.querySelector('.map');
 var mapFilter = document.querySelector('.map__filters-container');
-
-aannouncement.forEach(function (item, i) {
-  var srcAvatar = aannouncement[i].author.avatar;
-  var alt = aannouncement[i].offer.title;
-  var coordinatesX = aannouncement[i].location.x + OFFSET_BY_X;
-  var coordinatesY = aannouncement[i].location.y + OFFSET_BY_Y;
-
-  markElement = createCloneElement(pin);
-  createNewElementMark(srcAvatar, alt, coordinatesX, coordinatesY);
-
-  fragment.appendChild(markElement);
-});
-
-mapPins.appendChild(fragment);
 
 var title = aannouncement[0].offer.title;
 var address = aannouncement[0].offer.address;
@@ -168,6 +193,7 @@ var features = aannouncement[0].offer.features;
 var description = aannouncement[0].offer.description;
 var srcPhoto = aannouncement[0].offer.photos[0];
 var srcAvatar = aannouncement[0].author.avatar;
+var photoElement;
 
 cardElement = createCloneElement(card);
 createNewElementCard(title, address, price, type, rooms, guest, checkin, checkout, features, description, srcPhoto, srcAvatar);
@@ -176,7 +202,6 @@ map.insertBefore(cardElement, mapFilter);
 
 var popupPhotos = document.querySelector('.popup__photos');
 var popupPhoto = document.querySelector('.popup__photo');
-var photoElement;
 var srcPhotoList = aannouncement[0].offer.photos;
 
 for (var i = 1; i < srcPhotoList.length; i++) {
@@ -189,3 +214,64 @@ for (var i = 1; i < srcPhotoList.length; i++) {
   fragment.appendChild(photoElement);
 }
 popupPhotos.appendChild(fragment);
+*/
+
+var mapPinMain = document.querySelector('.map__pin--main');
+var placemarkAddress = document.getElementById('address');
+
+var pageActivation = function () {
+  aannouncement.forEach(function (item, index) {
+    var srcAvatar = aannouncement[index].author.avatar;
+    alt = aannouncement[index].offer.title;
+    coordinatesX = aannouncement[index].location.x + OFFSET_BY_X;
+    coordinatesY = aannouncement[index].location.y + OFFSET_BY_Y;
+
+    markElement = createCloneElement(pin);
+    createNewElementMark(srcAvatar, alt, coordinatesX, coordinatesY);
+
+    fragment.appendChild(markElement);
+  });
+
+  mapPins.appendChild(fragment);
+
+  adForm.classList.remove('ad-form--disabled');
+
+  for (j = 0; j < formFieldset.length; j++) {
+    removeAttributeDisabled(formFieldset, j);
+  }
+
+  for (j = 0; j < formMapFilters.childNodes.length; j++) {
+    removeAttributeDisabled(formMapFilters, j);
+  }
+
+  placemarkAddress.value = '600, 380';
+};
+
+mapPinMain.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 13) {
+    pageActivation();
+  }
+});
+
+mapPinMain.addEventListener('mousedown', function (evt) {
+  if (evt.which === 1) {
+    pageActivation();
+  }
+});
+
+var roomNumberForm = adForm.querySelector('#room_number');
+var capacityForm = adForm.querySelector('#capacity');
+
+adForm.addEventListener('click', function () {
+  if (roomNumberForm.value === '1' && capacityForm.value !== '1') {
+    roomNumberForm.setCustomValidity('1 комната — «для 1 гостя»');
+  } else if (roomNumberForm.value === '2' && capacityForm.value === '3' || roomNumberForm.value === '2' && capacityForm.value === '0') {
+    roomNumberForm.setCustomValidity('2 комнаты — «для 2 гостей» или «для 1 гостя»');
+  } else if (roomNumberForm.value === '3' && capacityForm.value === '0') {
+    roomNumberForm.setCustomValidity('3 комнаты — «для 3 гостей», «для 2 гостей» или «для 1 гостя»');
+  } else if (roomNumberForm.value === '100' && capacityForm.value !== '0') {
+    roomNumberForm.setCustomValidity('100 комнат — «не для гостей»');
+  } else {
+    roomNumberForm.setCustomValidity('');
+  }
+});
