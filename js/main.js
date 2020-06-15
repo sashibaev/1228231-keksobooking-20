@@ -12,16 +12,23 @@ var CHECKOUT = ['12:00', '13:00', '14:00', '12:00', '13:00', '14:00', '13:00', '
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var DESCRIPTION = ['Описание номера объявление первое', 'Описание номера объявление второе', 'Описание номера объявление третье', 'Описание номера объявление четвертое', 'Описание номера объявление пятое', 'Описание номера объявление шестое', 'Описание номера объявление седьмое', 'Описание номера объявление восьмое'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
-var OFFSET_BY_X = 20;
-var OFFSET_BY_Y = 60;
+var WIDTH_OF_PLACEMARK = 40;
+var HEIGHT_OF_PLACEMARK = 60;
 
 var markElement;
 var alt;
 var coordinatesX;
 var coordinatesY;
+var activeMode = false;
 
 var getRandomNumber = function (intA, intB) {
   return (intA + Math.floor(Math.random() * intB));
+};
+
+var createRandomLength = function (intA, intB, list) {
+  var intC = getRandomNumber(intA, intB);
+  var length = list.slice(0, intC);
+  return length;
 };
 
 var createNewArray = function (arrayLength, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value11, value12) {
@@ -37,9 +44,9 @@ var createNewArray = function (arrayLength, value1, value2, value3, value4, valu
     var guestArray = value7[i];
     var checkinArray = value8[i];
     var checkoutArray = value9[i];
-    var featuresArray = createRandomLength(0, 6, value10);
+    var featuresArray = createRandomLength(1, 6, value10);
     var descriptionArray = value11[i];
-    var photosArray = createRandomLength(0, 3, value12);
+    var photosArray = createRandomLength(1, 3, value12);
     var xCoordinatesArray = getRandomNumber(0, 1200);
     var yCoordinatesArray = getRandomNumber(130, 500);
 
@@ -69,12 +76,6 @@ var createNewArray = function (arrayLength, value1, value2, value3, value4, valu
   return newArray;
 };
 
-var createRandomLength = function (intA, intB, list) {
-  var intC = getRandomNumber(intA, intB);
-  list.slice(intA, intC);
-  return list;
-};
-
 var createCloneElement = function (element) {
   return element.cloneNode(true);
 };
@@ -98,7 +99,7 @@ var removeAttributeDisabled = function (element, index) {
 };
 
 /* Закомментировали, согласно условию задания */
-/*
+
 var checkingCondition = function (value, text1, text2, text3) {
   if (value === 1) {
     var textValue = text1;
@@ -147,7 +148,7 @@ var createNewElementCard = function (title, address, price, type, rooms, guest, 
 
   return cardElement;
 };
-*/
+/*   */
 
 var aannouncement = createNewArray(8, AVATAR, TITLE, ADDRESS, PRICE, TYPE_HOUSE, ROOMS, GUEST, CHECKIN, CHECKOUT, FEATURES, DESCRIPTION, PHOTOS);
 
@@ -173,61 +174,66 @@ var mapPins = document.querySelector('.map__pins');
 var fragment = document.createDocumentFragment();
 
 /* Закомментировали, согласно условию задания */
-/*
-var card = document.querySelector('#card')
+
+var createNewCard = function (index) {
+  var card = document.querySelector('#card')
                   .content
                   .querySelector('.map__card');
 
-var map = document.querySelector('.map');
-var mapFilter = document.querySelector('.map__filters-container');
+  var map = document.querySelector('.map');
+  var mapFilter = document.querySelector('.map__filters-container');
 
-var title = aannouncement[0].offer.title;
-var address = aannouncement[0].offer.address;
-var price = aannouncement[0].offer.price;
-var type = aannouncement[0].offer.type;
-var rooms = aannouncement[0].offer.rooms;
-var guest = aannouncement[0].offer.guest;
-var checkin = aannouncement[0].offer.checkin;
-var checkout = aannouncement[0].offer.checkout;
-var features = aannouncement[0].offer.features;
-var description = aannouncement[0].offer.description;
-var srcPhoto = aannouncement[0].offer.photos[0];
-var srcAvatar = aannouncement[0].author.avatar;
-var photoElement;
+  var title = aannouncement[index].offer.title;
+  var address = aannouncement[index].offer.address;
+  var price = aannouncement[index].offer.price;
+  var type = aannouncement[index].offer.type;
+  var rooms = aannouncement[index].offer.rooms;
+  var guest = aannouncement[index].offer.guest;
+  var checkin = aannouncement[index].offer.checkin;
+  var checkout = aannouncement[index].offer.checkout;
+  var features = aannouncement[index].offer.features;
+  var description = aannouncement[index].offer.description;
+  var srcPhoto = aannouncement[index].offer.photos[0];
+  var srcAvatar = aannouncement[index].author.avatar;
+  var photoElement;
 
-cardElement = createCloneElement(card);
-createNewElementCard(title, address, price, type, rooms, guest, checkin, checkout, features, description, srcPhoto, srcAvatar);
+  cardElement = createCloneElement(card);
+  cardElement = createNewElementCard(title, address, price, type, rooms, guest, checkin, checkout, features, description, srcPhoto, srcAvatar);
 
-map.insertBefore(cardElement, mapFilter);
+  map.insertBefore(cardElement, mapFilter);
+  var popupPhotos = document.querySelector('.popup__photos');
+  var popupPhoto = document.querySelector('.popup__photo');
+  var srcPhotoList = aannouncement[index].offer.photos;
 
-var popupPhotos = document.querySelector('.popup__photos');
-var popupPhoto = document.querySelector('.popup__photo');
-var srcPhotoList = aannouncement[0].offer.photos;
+  for (var i = 1; i < srcPhotoList.length; i++) {
+    var srcPhotosElement = aannouncement[index].offer.photos[i];
 
-for (var i = 1; i < srcPhotoList.length; i++) {
-  var srcPhotosElement = aannouncement[0].offer.photos[i];
+    photoElement = createCloneElement(popupPhoto);
+    photoElement.classList.add('popup__photo');
+    photoElement.src = srcPhotosElement;
 
-  photoElement = createCloneElement(popupPhoto);
-  photoElement.classList.add('popup__photo');
-  photoElement.src = srcPhotosElement;
+    fragment.appendChild(photoElement);
+  }
+  popupPhotos.appendChild(fragment);
+  return cardElement;
+};
 
-  fragment.appendChild(photoElement);
-}
-popupPhotos.appendChild(fragment);
-*/
+/*  */
 
 var mapPinMain = document.querySelector('.map__pin--main');
 var placemarkAddress = document.getElementById('address');
 
 var pageActivation = function () {
   aannouncement.forEach(function (item, index) {
-    var srcAvatar = aannouncement[index].author.avatar;
+    var avatar = aannouncement[index].author.avatar;
     alt = aannouncement[index].offer.title;
-    coordinatesX = aannouncement[index].location.x + OFFSET_BY_X;
-    coordinatesY = aannouncement[index].location.y + OFFSET_BY_Y;
+    coordinatesX = aannouncement[index].location.x + WIDTH_OF_PLACEMARK / 2;
+    coordinatesY = aannouncement[index].location.y + HEIGHT_OF_PLACEMARK;
 
     markElement = createCloneElement(pin);
-    createNewElementMark(srcAvatar, alt, coordinatesX, coordinatesY);
+    createNewElementMark(avatar, alt, coordinatesX, coordinatesY);
+    var markElementImg = markElement.querySelector('img');
+    markElementImg.setAttribute('id', index);
 
     fragment.appendChild(markElement);
   });
@@ -248,14 +254,16 @@ var pageActivation = function () {
 };
 
 mapPinMain.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === 13) {
+  if (evt.keyCode === 13 && activeMode === false) {
     pageActivation();
+    activeMode = true;
   }
 });
 
 mapPinMain.addEventListener('mousedown', function (evt) {
-  if (evt.which === 1) {
+  if (evt.which === 1 && activeMode === false) {
     pageActivation();
+    activeMode = true;
   }
 });
 
@@ -275,3 +283,26 @@ adForm.addEventListener('click', function () {
     roomNumberForm.setCustomValidity('');
   }
 });
+
+mapPins.addEventListener('click', function (evt) {
+  if (evt.target.id) {
+    cardElement = createNewCard(evt.target.id);
+
+    cardElement.classList.remove('visually-hidden');
+  }
+});
+
+var map = document.querySelector('.map');
+
+map.addEventListener('mousedown', function (evt) {
+  if (evt.which === 1) {
+    map.removeChild(cardElement);
+  }
+});
+
+map.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 27) {
+    cardElement.remove();
+  }
+});
+
