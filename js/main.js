@@ -12,16 +12,23 @@ var CHECKOUT = ['12:00', '13:00', '14:00', '12:00', '13:00', '14:00', '13:00', '
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var DESCRIPTION = ['Описание номера объявление первое', 'Описание номера объявление второе', 'Описание номера объявление третье', 'Описание номера объявление четвертое', 'Описание номера объявление пятое', 'Описание номера объявление шестое', 'Описание номера объявление седьмое', 'Описание номера объявление восьмое'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
-var OFFSET_BY_X = 20;
-var OFFSET_BY_Y = 60;
+var WIDTH_OF_PLACEMARK = 50;
+var HEIGHT_OF_PLACEMARK = 70;
 
 var markElement;
 var alt;
 var coordinatesX;
 var coordinatesY;
+var activeMode = false;
 
 var getRandomNumber = function (intA, intB) {
   return (intA + Math.floor(Math.random() * intB));
+};
+
+var createRandomLength = function (intA, intB, list) {
+  var intC = getRandomNumber(intA, intB);
+  var length = list.slice(0, intC);
+  return length;
 };
 
 var createNewArray = function (arrayLength, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value11, value12) {
@@ -37,9 +44,9 @@ var createNewArray = function (arrayLength, value1, value2, value3, value4, valu
     var guestArray = value7[i];
     var checkinArray = value8[i];
     var checkoutArray = value9[i];
-    var featuresArray = createRandomLength(0, 6, value10);
+    var featuresArray = createRandomLength(1, 6, value10);
     var descriptionArray = value11[i];
-    var photosArray = createRandomLength(0, 3, value12);
+    var photosArray = createRandomLength(1, 3, value12);
     var xCoordinatesArray = getRandomNumber(0, 1200);
     var yCoordinatesArray = getRandomNumber(130, 500);
 
@@ -69,12 +76,6 @@ var createNewArray = function (arrayLength, value1, value2, value3, value4, valu
   return newArray;
 };
 
-var createRandomLength = function (intA, intB, list) {
-  var intC = getRandomNumber(intA, intB);
-  list.slice(intA, intC);
-  return list;
-};
-
 var createCloneElement = function (element) {
   return element.cloneNode(true);
 };
@@ -97,8 +98,6 @@ var removeAttributeDisabled = function (element, index) {
   return element[index];
 };
 
-/* Закомментировали, согласно условию задания */
-/*
 var checkingCondition = function (value, text1, text2, text3) {
   if (value === 1) {
     var textValue = text1;
@@ -147,7 +146,6 @@ var createNewElementCard = function (title, address, price, type, rooms, guest, 
 
   return cardElement;
 };
-*/
 
 var aannouncement = createNewArray(8, AVATAR, TITLE, ADDRESS, PRICE, TYPE_HOUSE, ROOMS, GUEST, CHECKIN, CHECKOUT, FEATURES, DESCRIPTION, PHOTOS);
 
@@ -165,69 +163,74 @@ for (j = 0; j < formMapFilters.childNodes.length; j++) {
   addAttributeDisabled(formMapFilters, j);
 }
 
+var fragment = document.createDocumentFragment();
+
+var createNewCard = function (index) {
+  var card = document.querySelector('#card')
+                  .content
+                  .querySelector('.map__card');
+
+  var map = document.querySelector('.map');
+  var mapFilter = document.querySelector('.map__filters-container');
+
+  var title = aannouncement[index].offer.title;
+  var address = aannouncement[index].offer.address;
+  var price = aannouncement[index].offer.price;
+  var type = aannouncement[index].offer.type;
+  var rooms = aannouncement[index].offer.rooms;
+  var guest = aannouncement[index].offer.guest;
+  var checkin = aannouncement[index].offer.checkin;
+  var checkout = aannouncement[index].offer.checkout;
+  var features = aannouncement[index].offer.features;
+  var description = aannouncement[index].offer.description;
+  var srcPhoto = aannouncement[index].offer.photos[0];
+  var srcAvatar = aannouncement[index].author.avatar;
+  var photoElement;
+
+  cardElement = createCloneElement(card);
+  cardElement = createNewElementCard(title, address, price, type, rooms, guest, checkin, checkout, features, description, srcPhoto, srcAvatar);
+  map.insertBefore(cardElement, mapFilter);
+
+  var popupPhotos = document.querySelector('.popup__photos');
+  var popupPhoto = document.querySelector('.popup__photo');
+  var srcPhotoList = aannouncement[index].offer.photos;
+
+  for (var i = 1; i < srcPhotoList.length; i++) {
+    var srcPhotosElement = aannouncement[index].offer.photos[i];
+
+    photoElement = createCloneElement(popupPhoto);
+    photoElement.classList.add('popup__photo');
+    photoElement.src = srcPhotosElement;
+
+    fragment.appendChild(photoElement);
+  }
+  popupPhotos.appendChild(fragment);
+
+  return (cardElement);
+};
+
 var pin = document.querySelector('#pin')
                   .content
                   .querySelector('.map__pin');
 
 var mapPins = document.querySelector('.map__pins');
-var fragment = document.createDocumentFragment();
-
-/* Закомментировали, согласно условию задания */
-/*
-var card = document.querySelector('#card')
-                  .content
-                  .querySelector('.map__card');
-
-var map = document.querySelector('.map');
-var mapFilter = document.querySelector('.map__filters-container');
-
-var title = aannouncement[0].offer.title;
-var address = aannouncement[0].offer.address;
-var price = aannouncement[0].offer.price;
-var type = aannouncement[0].offer.type;
-var rooms = aannouncement[0].offer.rooms;
-var guest = aannouncement[0].offer.guest;
-var checkin = aannouncement[0].offer.checkin;
-var checkout = aannouncement[0].offer.checkout;
-var features = aannouncement[0].offer.features;
-var description = aannouncement[0].offer.description;
-var srcPhoto = aannouncement[0].offer.photos[0];
-var srcAvatar = aannouncement[0].author.avatar;
-var photoElement;
-
-cardElement = createCloneElement(card);
-createNewElementCard(title, address, price, type, rooms, guest, checkin, checkout, features, description, srcPhoto, srcAvatar);
-
-map.insertBefore(cardElement, mapFilter);
-
-var popupPhotos = document.querySelector('.popup__photos');
-var popupPhoto = document.querySelector('.popup__photo');
-var srcPhotoList = aannouncement[0].offer.photos;
-
-for (var i = 1; i < srcPhotoList.length; i++) {
-  var srcPhotosElement = aannouncement[0].offer.photos[i];
-
-  photoElement = createCloneElement(popupPhoto);
-  photoElement.classList.add('popup__photo');
-  photoElement.src = srcPhotosElement;
-
-  fragment.appendChild(photoElement);
-}
-popupPhotos.appendChild(fragment);
-*/
-
 var mapPinMain = document.querySelector('.map__pin--main');
 var placemarkAddress = document.getElementById('address');
 
 var pageActivation = function () {
   aannouncement.forEach(function (item, index) {
-    var srcAvatar = aannouncement[index].author.avatar;
+    var avatar = aannouncement[index].author.avatar;
     alt = aannouncement[index].offer.title;
-    coordinatesX = aannouncement[index].location.x + OFFSET_BY_X;
-    coordinatesY = aannouncement[index].location.y + OFFSET_BY_Y;
+    coordinatesX = aannouncement[index].location.x + WIDTH_OF_PLACEMARK / 2;
+    coordinatesY = aannouncement[index].location.y + HEIGHT_OF_PLACEMARK;
 
     markElement = createCloneElement(pin);
-    createNewElementMark(srcAvatar, alt, coordinatesX, coordinatesY);
+    markElement.classList.add('map__pin-generated');
+
+    // var markElementImg = markElement.querySelector('img');
+
+    markElement.setAttribute('id', index);
+    createNewElementMark(avatar, alt, coordinatesX, coordinatesY);
 
     fragment.appendChild(markElement);
   });
@@ -245,22 +248,147 @@ var pageActivation = function () {
   }
 
   placemarkAddress.value = '600, 380';
+  priceForm.placeholder = '1000';
 };
 
-mapPinMain.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === 13) {
+var createPinFunction = function (item) {
+  item.addEventListener('click', function () {
+    var numberId = item.getAttribute('id');
+
+    if (cardElement) {
+      cardElement.remove();
+    }
+
+    cardElement = createNewCard(numberId);
+    cardElement.classList.remove('visually-hidden');
+
+    var popupClose = map.querySelector('.popup__close');
+
+    popupClose.addEventListener('mousedown', function (evt) {
+      if (evt.which === 1) {
+        cardElement.remove();
+      }
+    });
+  });
+};
+
+mapPinMain.addEventListener('mousedown', function (evt) {
+  if (evt.which === 1 && activeMode === false) {
     pageActivation();
+    activeMode = true;
+  }
+  var pinId = document.querySelectorAll('.map__pin-generated');
+
+  pinId.forEach(createPinFunction);
+});
+
+mapPinMain.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 13 && activeMode === false) {
+    pageActivation();
+    activeMode = true;
+  }
+  var pinId = document.querySelectorAll('.map__pin-generated');
+
+  pinId.forEach(createPinFunction);
+});
+
+var map = document.querySelector('.map');
+
+map.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 27) {
+    cardElement.remove();
   }
 });
 
-mapPinMain.addEventListener('mousedown', function (evt) {
-  if (evt.which === 1) {
-    pageActivation();
+/* Валидация формы отправки объявления, разместил все здесь для удобства,
+ потому что в следующем задании все перенесу в отдельный файл*/
+var MIN_TITLE_LENGTH = 30;
+var MAX_TITLE_LENGTH = 100;
+var MAX_PRICE = 1000000;
+var minPrice = 1000;
+
+var titleForm = document.querySelector('#title');
+
+titleForm.addEventListener('invalid', function () {
+  if (titleForm.validaty.valueMissing) {
+    titleForm.setCustomValidity('Обязательное поле для заполнения');
+  } else {
+    titleForm.setCustomValidity('');
+  }
+});
+
+titleForm.addEventListener('input', function () {
+  var valueLengthTitle = titleForm.value.length;
+
+  if (valueLengthTitle < MIN_TITLE_LENGTH) {
+    titleForm.setCustomValidity('Ещё ' + (MIN_TITLE_LENGTH - valueLengthTitle) + ' симв.');
+  } else if (valueLengthTitle > MAX_TITLE_LENGTH) {
+    titleForm.setCustomValidity('Удалите лишнии символы ' + (valueLengthTitle - MAX_TITLE_LENGTH) + ' симв.');
+  } else {
+    titleForm.setCustomValidity('');
+  }
+});
+
+var priceForm = document.querySelector('#price');
+var typeForm = document.querySelector('#type');
+var valuePrice;
+
+priceForm.addEventListener('invalid', function () {
+  if (priceForm.validaty.valueMissing) {
+    priceForm.setCustomValidity('Обязательное поле для заполнения');
+  } else {
+    priceForm.setCustomValidity('');
+  }
+});
+
+var priceFormIf = function () {
+  valuePrice = priceForm.value;
+
+  if (valuePrice < minPrice) {
+    priceForm.setCustomValidity('Ещё ' + (minPrice - valuePrice) + ' единиц');
+  } else if (valuePrice > MAX_PRICE) {
+    priceForm.setCustomValidity('Удалите лишнии единицы ' + (valuePrice - MAX_PRICE) + ' единиц');
+  } else {
+    priceForm.setCustomValidity('');
+  }
+};
+
+priceForm.addEventListener('input', function () {
+  priceFormIf();
+});
+
+typeForm.addEventListener('change', function () {
+  if (typeForm.value === 'bungalo') {
+    minPrice = 0;
+    priceForm.placeholder = '0';
+  } else if (typeForm.value === 'flat') {
+    minPrice = 1000;
+    priceForm.placeholder = '1000';
+  } else if (typeForm.value === 'house') {
+    minPrice = 5000;
+    priceForm.placeholder = '5000';
+  } else {
+    minPrice = 10000;
+    priceForm.placeholder = '10000';
+  }
+
+  priceFormIf();
+});
+
+var addressForm = document.querySelector('#address');
+
+addressForm.addEventListener('invalid', function () {
+  if (addressForm.validaty.valueMissing) {
+    addressForm.setCustomValidity('Обязательное поле для заполнения');
+  } else {
+    addressForm.setCustomValidity('');
   }
 });
 
 var roomNumberForm = adForm.querySelector('#room_number');
 var capacityForm = adForm.querySelector('#capacity');
+var timeinForm = adForm.querySelector('#timein');
+var timeoutForm = adForm.querySelector('#timeout');
 
 adForm.addEventListener('click', function () {
   if (roomNumberForm.value === '1' && capacityForm.value !== '1') {
@@ -273,5 +401,15 @@ adForm.addEventListener('click', function () {
     roomNumberForm.setCustomValidity('100 комнат — «не для гостей»');
   } else {
     roomNumberForm.setCustomValidity('');
+  }
+
+  if (timeinForm.value === '12:00' && timeoutForm.value !== '12:00') {
+    timeinForm.setCustomValidity('время заезда после 12:00 — время выезда до 12:00');
+  } else if (timeinForm.value === '13:00' && timeoutForm.value !== '13:00') {
+    timeinForm.setCustomValidity('время заезда после 13:00 — время выезда до 13:00');
+  } else if (timeinForm.value === '14:00' && timeoutForm.value !== '14:00') {
+    timeinForm.setCustomValidity('время заезда после 14:00 — время выезда до 14:00');
+  } else {
+    timeinForm.setCustomValidity('');
   }
 });
