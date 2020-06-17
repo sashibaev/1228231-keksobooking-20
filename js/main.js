@@ -12,8 +12,8 @@ var CHECKOUT = ['12:00', '13:00', '14:00', '12:00', '13:00', '14:00', '13:00', '
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var DESCRIPTION = ['Описание номера объявление первое', 'Описание номера объявление второе', 'Описание номера объявление третье', 'Описание номера объявление четвертое', 'Описание номера объявление пятое', 'Описание номера объявление шестое', 'Описание номера объявление седьмое', 'Описание номера объявление восьмое'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
-var WIDTH_OF_PLACEMARK = 40;
-var HEIGHT_OF_PLACEMARK = 60;
+var WIDTH_OF_PLACEMARK = 50;
+var HEIGHT_OF_PLACEMARK = 70;
 
 var markElement;
 var alt;
@@ -98,8 +98,6 @@ var removeAttributeDisabled = function (element, index) {
   return element[index];
 };
 
-/* Закомментировали, согласно условию задания */
-
 var checkingCondition = function (value, text1, text2, text3) {
   if (value === 1) {
     var textValue = text1;
@@ -148,7 +146,6 @@ var createNewElementCard = function (title, address, price, type, rooms, guest, 
 
   return cardElement;
 };
-/*   */
 
 var aannouncement = createNewArray(8, AVATAR, TITLE, ADDRESS, PRICE, TYPE_HOUSE, ROOMS, GUEST, CHECKIN, CHECKOUT, FEATURES, DESCRIPTION, PHOTOS);
 
@@ -166,14 +163,7 @@ for (j = 0; j < formMapFilters.childNodes.length; j++) {
   addAttributeDisabled(formMapFilters, j);
 }
 
-var pin = document.querySelector('#pin')
-                  .content
-                  .querySelector('.map__pin');
-
-var mapPins = document.querySelector('.map__pins');
 var fragment = document.createDocumentFragment();
-
-/* Закомментировали, согласно условию задания */
 
 var createNewCard = function (index) {
   var card = document.querySelector('#card')
@@ -199,8 +189,8 @@ var createNewCard = function (index) {
 
   cardElement = createCloneElement(card);
   cardElement = createNewElementCard(title, address, price, type, rooms, guest, checkin, checkout, features, description, srcPhoto, srcAvatar);
-
   map.insertBefore(cardElement, mapFilter);
+
   var popupPhotos = document.querySelector('.popup__photos');
   var popupPhoto = document.querySelector('.popup__photo');
   var srcPhotoList = aannouncement[index].offer.photos;
@@ -215,11 +205,15 @@ var createNewCard = function (index) {
     fragment.appendChild(photoElement);
   }
   popupPhotos.appendChild(fragment);
-  return cardElement;
+
+  return (cardElement);
 };
 
-/*  */
+var pin = document.querySelector('#pin')
+                  .content
+                  .querySelector('.map__pin');
 
+var mapPins = document.querySelector('.map__pins');
 var mapPinMain = document.querySelector('.map__pin--main');
 var placemarkAddress = document.getElementById('address');
 
@@ -231,9 +225,12 @@ var pageActivation = function () {
     coordinatesY = aannouncement[index].location.y + HEIGHT_OF_PLACEMARK;
 
     markElement = createCloneElement(pin);
+    markElement.classList.add('map__pin-generated');
+
+    // var markElementImg = markElement.querySelector('img');
+
+    markElement.setAttribute('id', index);
     createNewElementMark(avatar, alt, coordinatesX, coordinatesY);
-    var markElementImg = markElement.querySelector('img');
-    markElementImg.setAttribute('id', index);
 
     fragment.appendChild(markElement);
   });
@@ -251,24 +248,147 @@ var pageActivation = function () {
   }
 
   placemarkAddress.value = '600, 380';
+  priceForm.placeholder = '1000';
 };
 
-mapPinMain.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === 13 && activeMode === false) {
-    pageActivation();
-    activeMode = true;
-  }
-});
+var createPinFunction = function (item) {
+  item.addEventListener('click', function () {
+    var numberId = item.getAttribute('id');
+
+    if (cardElement) {
+      cardElement.remove();
+    }
+
+    cardElement = createNewCard(numberId);
+    cardElement.classList.remove('visually-hidden');
+
+    var popupClose = map.querySelector('.popup__close');
+
+    popupClose.addEventListener('mousedown', function (evt) {
+      if (evt.which === 1) {
+        cardElement.remove();
+      }
+    });
+  });
+};
 
 mapPinMain.addEventListener('mousedown', function (evt) {
   if (evt.which === 1 && activeMode === false) {
     pageActivation();
     activeMode = true;
   }
+  var pinId = document.querySelectorAll('.map__pin-generated');
+
+  pinId.forEach(createPinFunction);
+});
+
+mapPinMain.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 13 && activeMode === false) {
+    pageActivation();
+    activeMode = true;
+  }
+  var pinId = document.querySelectorAll('.map__pin-generated');
+
+  pinId.forEach(createPinFunction);
+});
+
+var map = document.querySelector('.map');
+
+map.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 27) {
+    cardElement.remove();
+  }
+});
+
+/* Валидация формы отправки объявления, разместил все здесь для удобства,
+ потому что в следующем задании все перенесу в отдельный файл*/
+var MIN_TITLE_LENGTH = 30;
+var MAX_TITLE_LENGTH = 100;
+var MAX_PRICE = 1000000;
+var minPrice = 1000;
+
+var titleForm = document.querySelector('#title');
+
+titleForm.addEventListener('invalid', function () {
+  if (titleForm.validaty.valueMissing) {
+    titleForm.setCustomValidity('Обязательное поле для заполнения');
+  } else {
+    titleForm.setCustomValidity('');
+  }
+});
+
+titleForm.addEventListener('input', function () {
+  var valueLengthTitle = titleForm.value.length;
+
+  if (valueLengthTitle < MIN_TITLE_LENGTH) {
+    titleForm.setCustomValidity('Ещё ' + (MIN_TITLE_LENGTH - valueLengthTitle) + ' симв.');
+  } else if (valueLengthTitle > MAX_TITLE_LENGTH) {
+    titleForm.setCustomValidity('Удалите лишнии символы ' + (valueLengthTitle - MAX_TITLE_LENGTH) + ' симв.');
+  } else {
+    titleForm.setCustomValidity('');
+  }
+});
+
+var priceForm = document.querySelector('#price');
+var typeForm = document.querySelector('#type');
+var valuePrice;
+
+priceForm.addEventListener('invalid', function () {
+  if (priceForm.validaty.valueMissing) {
+    priceForm.setCustomValidity('Обязательное поле для заполнения');
+  } else {
+    priceForm.setCustomValidity('');
+  }
+});
+
+var priceFormIf = function () {
+  valuePrice = priceForm.value;
+
+  if (valuePrice < minPrice) {
+    priceForm.setCustomValidity('Ещё ' + (minPrice - valuePrice) + ' единиц');
+  } else if (valuePrice > MAX_PRICE) {
+    priceForm.setCustomValidity('Удалите лишнии единицы ' + (valuePrice - MAX_PRICE) + ' единиц');
+  } else {
+    priceForm.setCustomValidity('');
+  }
+};
+
+priceForm.addEventListener('input', function () {
+  priceFormIf();
+});
+
+typeForm.addEventListener('change', function () {
+  if (typeForm.value === 'bungalo') {
+    minPrice = 0;
+    priceForm.placeholder = '0';
+  } else if (typeForm.value === 'flat') {
+    minPrice = 1000;
+    priceForm.placeholder = '1000';
+  } else if (typeForm.value === 'house') {
+    minPrice = 5000;
+    priceForm.placeholder = '5000';
+  } else {
+    minPrice = 10000;
+    priceForm.placeholder = '10000';
+  }
+
+  priceFormIf();
+});
+
+var addressForm = document.querySelector('#address');
+
+addressForm.addEventListener('invalid', function () {
+  if (addressForm.validaty.valueMissing) {
+    addressForm.setCustomValidity('Обязательное поле для заполнения');
+  } else {
+    addressForm.setCustomValidity('');
+  }
 });
 
 var roomNumberForm = adForm.querySelector('#room_number');
 var capacityForm = adForm.querySelector('#capacity');
+var timeinForm = adForm.querySelector('#timein');
+var timeoutForm = adForm.querySelector('#timeout');
 
 adForm.addEventListener('click', function () {
   if (roomNumberForm.value === '1' && capacityForm.value !== '1') {
@@ -282,27 +402,14 @@ adForm.addEventListener('click', function () {
   } else {
     roomNumberForm.setCustomValidity('');
   }
-});
 
-mapPins.addEventListener('click', function (evt) {
-  if (evt.target.id) {
-    cardElement = createNewCard(evt.target.id);
-
-    cardElement.classList.remove('visually-hidden');
+  if (timeinForm.value === '12:00' && timeoutForm.value !== '12:00') {
+    timeinForm.setCustomValidity('время заезда после 12:00 — время выезда до 12:00');
+  } else if (timeinForm.value === '13:00' && timeoutForm.value !== '13:00') {
+    timeinForm.setCustomValidity('время заезда после 13:00 — время выезда до 13:00');
+  } else if (timeinForm.value === '14:00' && timeoutForm.value !== '14:00') {
+    timeinForm.setCustomValidity('время заезда после 14:00 — время выезда до 14:00');
+  } else {
+    timeinForm.setCustomValidity('');
   }
 });
-
-var map = document.querySelector('.map');
-
-map.addEventListener('mousedown', function (evt) {
-  if (evt.which === 1) {
-    map.removeChild(cardElement);
-  }
-});
-
-map.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === 27) {
-    cardElement.remove();
-  }
-});
-
