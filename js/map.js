@@ -37,7 +37,7 @@ window.map = (function () {
 
     pinId.forEach(createPinCard);
   };
-
+  /*
   mapPinMain.addEventListener('mouseup', function (evt) {
     if (evt.which === 1 && activeMode === false) {
       window.main.pageActivation();
@@ -45,8 +45,8 @@ window.map = (function () {
     }
     doWhenClicked();
   });
-
-  mapPinMain.addEventListener('keyup', function (evt) {
+  */
+  mapPinMain.addEventListener('keydown', function (evt) {
     if (evt.keyCode === 13 && activeMode === false) {
       window.main.pageActivation();
       activeMode = true;

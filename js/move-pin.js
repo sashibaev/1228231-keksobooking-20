@@ -1,11 +1,12 @@
 'use strict';
 
 window.map = (function () {
-  var mainPlacemark = document.querySelector('.map__pin--main');
+  var mapPinMain = document.querySelector('.map__pin--main');
   var placemarkAddress = document.getElementById('address');
+  var activeMode = false;
 
-  mainPlacemark.addEventListener('mousedown', function (evt) {
-    evt.preventDefault();
+  mapPinMain.addEventListener('mousedown', function (evt) {
+    //  evt.preventDefault();
 
     var startCoords = {
       x: evt.clientX,
@@ -14,12 +15,6 @@ window.map = (function () {
 
     var dragged = false;
 
-    /*
-    var startCoordsX = mainPlacemark.style.left.replace('px', '');
-
-    console.log(mainPlacemark.style.left);
-    console.log(startCoordsX);
-    */
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
 
@@ -35,19 +30,38 @@ window.map = (function () {
         y: moveEvt.clientY
       };
 
-      mainPlacemark.style.top = (mainPlacemark.offsetTop - shift.y) + 'px';
-      mainPlacemark.style.left = (mainPlacemark.offsetLeft - shift.x) + 'px';
-      /*
-      if ((mainPlacemark.offsetLeft - shift.x) < 100) {
-        mainPlacemark.style.top = (mainPlacemark.offsetTop - shift.y) + 'px';
-        mainPlacemark.style.left = (mainPlacemark.offsetLeft - shift.x) + 'px';
-      } else {
-        mainPlacemark.style.top = (mainPlacemark.offsetTop - shift.y) + 'px';
-        mainPlacemark.style.left = 100 + 'px';
+      if ((mapPinMain.offsetLeft - shift.x) < -24) {
+        var flag1 = true;
       }
-      */
-      var pinX = (mainPlacemark.offsetLeft - shift.x) + window.data.WIDTH_OF_PLACEMARK / 2;
-      var pinY = (mainPlacemark.offsetTop - shift.y) + window.data.HEIGHT_OF_PLACEMARK;
+      if ((mapPinMain.offsetLeft - shift.x) > 1173) {
+        var flag2 = true;
+      }
+      if ((mapPinMain.offsetTop - shift.y) < 61) {
+        var flag3 = true;
+      }
+      if ((mapPinMain.offsetTop - shift.y) > 559) {
+        var flag4 = true;
+      }
+
+      if (flag1) {
+        mapPinMain.style.left = -24 + 'px';
+      }
+      if (flag2) {
+        mapPinMain.style.left = 1173 + 'px';
+      }
+      if (flag3) {
+        mapPinMain.style.top = 61 + 'px';
+      }
+      if (flag4) {
+        mapPinMain.style.top = 559 + 'px';
+      }
+      if (!flag1 && !flag2 && !flag3 && !flag4) {
+        mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + 'px';
+        mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + 'px';
+      }
+
+      var pinX = (mapPinMain.offsetLeft - shift.x) + window.data.WIDTH_OF_PLACEMARK / 2;
+      var pinY = (mapPinMain.offsetTop - shift.y) + window.data.HEIGHT_OF_PLACEMARK;
 
       placemarkAddress.value = pinX + ', ' + pinY;
     };
@@ -59,21 +73,23 @@ window.map = (function () {
       document.removeEventListener('mouseup', onMouseUp);
 
       if (dragged) {
+
         var onClickPreventDefault = function (clickEvt) {
           clickEvt.preventDefault();
-          mainPlacemark.removeEventListener('click', onClickPreventDefault);
+
+          mapPinMain.removeEventListener('click', onClickPreventDefault);
         };
-        mainPlacemark.addEventListener('click', onClickPreventDefault);
+        mapPinMain.addEventListener('click', onClickPreventDefault);
+      } else {
+
+        if (evt.which === 1 && activeMode === false) {
+          window.main.pageActivation();
+          activeMode = true;
+        }
       }
     };
 
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
-  /*
-  var mainPlacemarkX = startCoords.x + window.pin.WIDTH_OF_PLACEMARK / 2;
-  var mainPlacemarkY = startCoords.y + window.pin.HEIGHT_OF_PLACEMARK;
-
-  placemarkAddress.value = mainPlacemarkX + ',' + mainPlacemarkY;
-  */
 })();

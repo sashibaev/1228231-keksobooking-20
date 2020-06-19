@@ -16,8 +16,8 @@ window.data = (function () {
   var WIDTH_OF_PLACEMARK = 50;
   var HEIGHT_OF_PLACEMARK = 70;
 
-  var intA = WIDTH_OF_PLACEMARK / 2;
-  var intB = HEIGHT_OF_PLACEMARK;
+  var widthX = WIDTH_OF_PLACEMARK / 2;
+  var heightY = HEIGHT_OF_PLACEMARK;
 
   var getRandomNumber = function (intA, intB) {
     return (intA + Math.floor(Math.random() * intB));
@@ -76,6 +76,6 @@ window.data = (function () {
   return {
     WIDTH_OF_PLACEMARK: WIDTH_OF_PLACEMARK,
     HEIGHT_OF_PLACEMARK: HEIGHT_OF_PLACEMARK,
-    aannouncement: createNewArray(8, AVATAR, TITLE, ADDRESS, PRICE, TYPE_HOUSE, ROOMS, GUEST, CHECKIN, CHECKOUT, FEATURES, DESCRIPTION, PHOTOS, intA, intB)
+    aannouncement: createNewArray(8, AVATAR, TITLE, ADDRESS, PRICE, TYPE_HOUSE, ROOMS, GUEST, CHECKIN, CHECKOUT, FEATURES, DESCRIPTION, PHOTOS, widthX, heightY)
   };
 })();
