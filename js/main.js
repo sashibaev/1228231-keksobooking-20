@@ -1,6 +1,8 @@
 'use strict';
 
 window.main = (function () {
+  var mainPlacemarkStyleLeft = 570;
+  var mainPlacemarkStyleTop = 375;
   var adForm = document.querySelector('.ad-form');
   var formMapFilters = document.querySelector('.map__filters');
   var formFieldset = adForm.querySelectorAll('fieldset');
@@ -18,6 +20,10 @@ window.main = (function () {
   };
 
   adForm.setAttribute('action', 'https://javascript.pages.academy/keksobooking');
+
+  var startCoordsX = mainPlacemarkStyleLeft + window.data.WIDTH_OF_PLACEMARK / 2;
+  var startCoordsY = mainPlacemarkStyleTop + window.data.HEIGHT_OF_PLACEMARK;
+  placemarkAddress.value = startCoordsX + ', ' + startCoordsY;
 
   for (var j = 0; j < formFieldset.length; j++) {
     addAttributeDisabled(formFieldset, j);
@@ -43,8 +49,6 @@ window.main = (function () {
       for (j = 0; j < formMapFilters.childNodes.length; j++) {
         removeAttributeDisabled(formMapFilters, j);
       }
-
-      placemarkAddress.value = '600, 380';
 
       var priceForm = document.querySelector('#price');
       priceForm.placeholder = '1000';

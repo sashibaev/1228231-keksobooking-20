@@ -8,6 +8,11 @@ window.map = (function () {
 
   var createPinCard = function (item) {
     item.addEventListener('click', function () {
+      var pinAll = map.querySelectorAll('.map__pin');
+      for (var i = 0; i < pinAll.length; i++) {
+        pinAll[i].classList.remove('map__pin--active');
+      }
+      item.classList.add('map__pin--active');
       var numberId = item.getAttribute('id');
 
       if (cardElement) {
@@ -27,24 +32,26 @@ window.map = (function () {
     });
   };
 
-  mapPinMain.addEventListener('mousedown', function (evt) {
+  var doWhenClicked = function () {
+    var pinId = document.querySelectorAll('.map__pin-generated');
+
+    pinId.forEach(createPinCard);
+  };
+
+  mapPinMain.addEventListener('mouseup', function (evt) {
     if (evt.which === 1 && activeMode === false) {
       window.main.pageActivation();
       activeMode = true;
     }
-    var pinId = document.querySelectorAll('.map__pin-generated');
-
-    pinId.forEach(createPinCard);
+    doWhenClicked();
   });
 
-  mapPinMain.addEventListener('keydown', function (evt) {
+  mapPinMain.addEventListener('keyup', function (evt) {
     if (evt.keyCode === 13 && activeMode === false) {
       window.main.pageActivation();
       activeMode = true;
     }
-    var pinId = document.querySelectorAll('.map__pin-generated');
-
-    pinId.forEach(createPinCard);
+    doWhenClicked();
   });
 
   map.addEventListener('keydown', function (evt) {

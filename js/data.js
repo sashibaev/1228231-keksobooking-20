@@ -13,6 +13,11 @@ window.data = (function () {
   var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
   var DESCRIPTION = ['Описание номера объявление первое', 'Описание номера объявление второе', 'Описание номера объявление третье', 'Описание номера объявление четвертое', 'Описание номера объявление пятое', 'Описание номера объявление шестое', 'Описание номера объявление седьмое', 'Описание номера объявление восьмое'];
   var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+  var WIDTH_OF_PLACEMARK = 50;
+  var HEIGHT_OF_PLACEMARK = 70;
+
+  var intA = WIDTH_OF_PLACEMARK / 2;
+  var intB = HEIGHT_OF_PLACEMARK;
 
   var getRandomNumber = function (intA, intB) {
     return (intA + Math.floor(Math.random() * intB));
@@ -24,7 +29,7 @@ window.data = (function () {
     return length;
   };
 
-  var createNewArray = function (arrayLength, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value11, value12) {
+  var createNewArray = function (arrayLength, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value11, value12, intA, intB) {
     var newArray = [];
 
     for (var i = 0; i < arrayLength; i++) {
@@ -40,8 +45,8 @@ window.data = (function () {
       var featuresArray = createRandomLength(1, 6, value10);
       var descriptionArray = value11[i];
       var photosArray = createRandomLength(1, 3, value12);
-      var xCoordinatesArray = getRandomNumber(0, 1200);
-      var yCoordinatesArray = getRandomNumber(130, 500);
+      var xCoordinatesArray = getRandomNumber(0 - intA, 1200);
+      var yCoordinatesArray = getRandomNumber(130 - intB, 500);
 
       newArray[i] = {
         'author': {
@@ -69,6 +74,8 @@ window.data = (function () {
     return newArray;
   };
   return {
-    aannouncement: createNewArray(8, AVATAR, TITLE, ADDRESS, PRICE, TYPE_HOUSE, ROOMS, GUEST, CHECKIN, CHECKOUT, FEATURES, DESCRIPTION, PHOTOS)
+    WIDTH_OF_PLACEMARK: WIDTH_OF_PLACEMARK,
+    HEIGHT_OF_PLACEMARK: HEIGHT_OF_PLACEMARK,
+    aannouncement: createNewArray(8, AVATAR, TITLE, ADDRESS, PRICE, TYPE_HOUSE, ROOMS, GUEST, CHECKIN, CHECKOUT, FEATURES, DESCRIPTION, PHOTOS, intA, intB)
   };
 })();
