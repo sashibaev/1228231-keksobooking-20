@@ -6,8 +6,8 @@ window.map = (function () {
   var activeMode = false;
 
   mapPinMain.addEventListener('mousedown', function (evt) {
-    //  evt.preventDefault();
-
+    evt.preventDefault();
+    console.log('режим нажатия');
     var startCoords = {
       x: evt.clientX,
       y: evt.clientY
@@ -17,7 +17,7 @@ window.map = (function () {
 
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
-
+      console.log('режим движения - функция');
       dragged = true;
 
       var shift = {
@@ -68,12 +68,12 @@ window.map = (function () {
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
-
+      console.log('режим отпускания');
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
 
       if (dragged) {
-
+        console.log('режим блокировки запуска меток');
         var onClickPreventDefault = function (clickEvt) {
           clickEvt.preventDefault();
 
@@ -83,6 +83,7 @@ window.map = (function () {
       } else {
 
         if (evt.which === 1 && activeMode === false) {
+          console.log('режим запуска меток');
           window.main.pageActivation();
           activeMode = true;
         }
