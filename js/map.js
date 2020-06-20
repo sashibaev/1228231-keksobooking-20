@@ -24,34 +24,21 @@ window.map = (function () {
 
       var popupClose = map.querySelector('.popup__close');
 
-      popupClose.addEventListener('mousedown', function (evt) {
+      popupClose.addEventListener('click', function (evt) {
         if (evt.which === 1) {
           cardElement.remove();
+          item.classList.remove('map__pin--active');
         }
       });
     });
   };
 
-  var doWhenClicked = function () {
-    var pinId = document.querySelectorAll('.map__pin-generated');
-
-    pinId.forEach(createPinCard);
-  };
-  /*
-  mapPinMain.addEventListener('mouseup', function (evt) {
-    if (evt.which === 1 && activeMode === false) {
-      window.main.pageActivation();
-      activeMode = true;
-    }
-    doWhenClicked();
-  });
-  */
   mapPinMain.addEventListener('keydown', function (evt) {
     if (evt.keyCode === 13 && activeMode === false) {
       window.main.pageActivation();
       activeMode = true;
     }
-    doWhenClicked();
+    window.map.doWhenClicked();
   });
 
   map.addEventListener('keydown', function (evt) {
@@ -59,4 +46,12 @@ window.map = (function () {
       cardElement.remove();
     }
   });
+
+  return {
+    doWhenClicked: function () {
+      var pinId = document.querySelectorAll('.map__pin-generated');
+
+      pinId.forEach(createPinCard);
+    }
+  };
 })();

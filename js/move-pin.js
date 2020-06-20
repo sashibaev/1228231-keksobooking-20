@@ -1,13 +1,13 @@
 'use strict';
 
-window.map = (function () {
+window.movePin = (function () {
   var mapPinMain = document.querySelector('.map__pin--main');
   var placemarkAddress = document.getElementById('address');
   var activeMode = false;
 
   mapPinMain.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
-    console.log('режим нажатия');
+
     var startCoords = {
       x: evt.clientX,
       y: evt.clientY
@@ -17,7 +17,7 @@ window.map = (function () {
 
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
-      console.log('режим движения - функция');
+
       dragged = true;
 
       var shift = {
@@ -68,25 +68,24 @@ window.map = (function () {
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
-      console.log('режим отпускания');
+
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
 
       if (dragged) {
-        console.log('режим блокировки запуска меток');
         var onClickPreventDefault = function (clickEvt) {
           clickEvt.preventDefault();
 
-          mapPinMain.removeEventListener('click', onClickPreventDefault);
+          document.removeEventListener('click', onClickPreventDefault);
         };
-        mapPinMain.addEventListener('click', onClickPreventDefault);
+        document.addEventListener('click', onClickPreventDefault);
       } else {
 
         if (evt.which === 1 && activeMode === false) {
-          console.log('режим запуска меток');
           window.main.pageActivation();
           activeMode = true;
         }
+        window.map.doWhenClicked();
       }
     };
 
