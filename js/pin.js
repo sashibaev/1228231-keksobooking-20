@@ -1,8 +1,6 @@
 'use strict';
 
 window.pin = (function () {
-  var WIDTH_OF_PLACEMARK = 50;
-  var HEIGHT_OF_PLACEMARK = 70;
   var alt;
   var coordinatesX;
   var coordinatesY;
@@ -29,8 +27,8 @@ window.pin = (function () {
       window.data.aannouncement.forEach(function (item, index) {
         var avatar = window.data.aannouncement[index].author.avatar;
         alt = window.data.aannouncement[index].offer.title;
-        coordinatesX = window.data.aannouncement[index].location.x + WIDTH_OF_PLACEMARK / 2;
-        coordinatesY = window.data.aannouncement[index].location.y + HEIGHT_OF_PLACEMARK;
+        coordinatesX = window.data.aannouncement[index].location.x + window.data.WIDTH_OF_PLACEMARK / 2;
+        coordinatesY = window.data.aannouncement[index].location.y + window.data.HEIGHT_OF_PLACEMARK;
 
         markElement = window.main.createCloneElement(pin);
         markElement.classList.add('map__pin-generated');
