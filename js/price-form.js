@@ -1,6 +1,6 @@
 'use strict';
 
-(function () {
+window.priceForm = (function () {
   var MAX_PRICE = 1000000;
   var minPrice = 1000;
 

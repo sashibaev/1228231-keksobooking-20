@@ -1,6 +1,6 @@
 'use strict';
 
-(function () {
+window.titleForm = (function () {
   var MIN_TITLE_LENGTH = 30;
   var MAX_TITLE_LENGTH = 100;
 
