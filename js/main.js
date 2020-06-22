@@ -37,6 +37,8 @@ window.main = (function () {
     pageActivation: function () {
       window.load(function (aannouncement) {
         window.pin.createPins(aannouncement);
+        console.log(aannouncement);
+        //  window.drawingCard.createNewCard(aannouncement[3]);
       });
 
       adForm.classList.remove('ad-form--disabled');

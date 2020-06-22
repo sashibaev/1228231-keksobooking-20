@@ -19,6 +19,9 @@ window.map = (function () {
         cardElement.remove();
       }
 
+      window.load(function (aannouncement) {
+        cardElement = window.drawingCard.createNewCard(aannouncement[numberId]);
+      });
       cardElement = window.drawingCard.createNewCard(numberId);
       cardElement.classList.remove('visually-hidden');
 
@@ -32,6 +35,14 @@ window.map = (function () {
       });
     });
   };
+
+  mapPinMain.addEventListener('mousedown', function (evt) {
+    if (evt.which === 1 && activeMode === false) {
+      window.main.pageActivation();
+      activeMode = true;
+    }
+    window.map.doWhenClicked();
+  });
 
   mapPinMain.addEventListener('keydown', function (evt) {
     if (evt.keyCode === 13 && activeMode === false) {
