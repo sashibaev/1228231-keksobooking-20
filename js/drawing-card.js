@@ -27,7 +27,7 @@ window.drawingCard = (function () {
       var srcAvatar = window.data.aannouncement[index].author.avatar;
       var photoElement;
 
-      cardElement = window.main.createCloneElement(card);
+      cardElement = card.cloneNode(true);
 
       cardElement = window.card.createNewElementCard(cardElement, title, address, price, type, rooms, guest, checkin, checkout, features, description, srcPhoto, srcAvatar);
 
@@ -40,7 +40,7 @@ window.drawingCard = (function () {
       for (var i = 1; i < srcPhotoList.length; i++) {
         var srcPhotosElement = window.data.aannouncement[index].offer.photos[i];
 
-        photoElement = window.main.createCloneElement(popupPhoto);
+        photoElement = popupPhoto.cloneNode(true);
         photoElement.classList.add('popup__photo');
         photoElement.src = srcPhotosElement;
 

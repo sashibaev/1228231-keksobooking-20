@@ -21,8 +21,8 @@ window.main = (function () {
 
   adForm.setAttribute('action', 'https://javascript.pages.academy/keksobooking');
 
-  var startCoordsX = mainPlacemarkStyleLeft + window.data.WIDTH_OF_PLACEMARK / 2;
-  var startCoordsY = mainPlacemarkStyleTop + window.data.HEIGHT_OF_PLACEMARK;
+  var startCoordsX = mainPlacemarkStyleLeft + window.pin.WIDTH_OF_PLACEMARK / 2;
+  var startCoordsY = mainPlacemarkStyleTop + window.pin.HEIGHT_OF_PLACEMARK;
   placemarkAddress.value = startCoordsX + ', ' + startCoordsY;
 
   for (var j = 0; j < formFieldset.length; j++) {
@@ -34,9 +34,6 @@ window.main = (function () {
   }
 
   return {
-    createCloneElement: function (element) {
-      return element.cloneNode(true);
-    },
     pageActivation: function () {
       window.pin.createPins();
 

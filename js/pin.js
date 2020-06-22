@@ -1,12 +1,7 @@
 'use strict';
 
 window.pin = (function () {
-  var alt;
-  var coordinatesX;
-  var coordinatesY;
   var markElement;
-
-  var fragment = document.createDocumentFragment();
 
   var pin = document.querySelector('#pin')
   .content
@@ -23,14 +18,18 @@ window.pin = (function () {
   };
 
   return {
-    createPins: function () {
-      window.data.aannouncement.forEach(function (item, index) {
-        var avatar = window.data.aannouncement[index].author.avatar;
-        alt = window.data.aannouncement[index].offer.title;
-        coordinatesX = window.data.aannouncement[index].location.x + window.data.WIDTH_OF_PLACEMARK / 2;
-        coordinatesY = window.data.aannouncement[index].location.y + window.data.HEIGHT_OF_PLACEMARK;
+    WIDTH_OF_PLACEMARK: 50,
+    HEIGHT_OF_PLACEMARK: 70,
+    createPins: window.load.getDataFromServer(function (aannouncement) {
+      var fragment = document.createDocumentFragment();
 
-        markElement = window.main.createCloneElement(pin);
+      aannouncement.forEach(function (item, index) {
+        var avatar = aannouncement[index].author.avatar;
+        var alt = aannouncement[index].offer.title;
+        var coordinatesX = aannouncement[index].location.x + window.pin.WIDTH_OF_PLACEMARK / 2;
+        var coordinatesY = aannouncement[index].location.y + window.pin.HEIGHT_OF_PLACEMARK;
+
+        markElement = pin.cloneNode(true);
         markElement.classList.add('map__pin-generated');
 
         markElement.setAttribute('id', index);
@@ -40,6 +39,6 @@ window.pin = (function () {
       });
 
       mapPins.appendChild(fragment);
-    }
+    }, function () {})
   };
 })();
