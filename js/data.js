@@ -74,8 +74,6 @@ window.data = (function () {
     return newArray;
   };
   return {
-    WIDTH_OF_PLACEMARK: WIDTH_OF_PLACEMARK,
-    HEIGHT_OF_PLACEMARK: HEIGHT_OF_PLACEMARK,
     aannouncement: createNewArray(8, AVATAR, TITLE, ADDRESS, PRICE, TYPE_HOUSE, ROOMS, GUEST, CHECKIN, CHECKOUT, FEATURES, DESCRIPTION, PHOTOS, widthX, heightY)
   };
 })();

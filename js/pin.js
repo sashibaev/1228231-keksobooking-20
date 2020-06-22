@@ -1,7 +1,8 @@
 'use strict';
 
 window.pin = (function () {
-  var markElement;
+  var WIDTH_OF_PLACEMARK = 50;
+  var HEIGHT_OF_PLACEMARK = 70;
 
   var pin = document.querySelector('#pin')
   .content
@@ -9,36 +10,34 @@ window.pin = (function () {
 
   var mapPins = document.querySelector('.map__pins');
 
-  var createNewElementMark = function (element, value1, value2, value3, value4) {
-    element.querySelector('.map__pin img').src = value1;
-    element.querySelector('.map__pin img').alt = value2;
-    element.setAttribute('style', 'left: ' + value3 + 'px; top: ' + value4 + 'px');
+  var createNewElementMark = function (element, array) {
+    var coordinatesX = array.location.x + window.pin.widthX;
+    var coordinatesY = array.location.y + window.pin.heightY;
+
+    element.querySelector('.map__pin img').src = array.author.avatar;
+    element.querySelector('.map__pin img').alt = array.offer.title;
+    element.setAttribute('style', 'left: ' + coordinatesX + 'px; top: ' + coordinatesY + 'px');
 
     return element;
   };
 
   return {
-    WIDTH_OF_PLACEMARK: 50,
-    HEIGHT_OF_PLACEMARK: 70,
-    createPins: window.load.getDataFromServer(function (aannouncement) {
+    widthX: WIDTH_OF_PLACEMARK / 2,
+    heightY: HEIGHT_OF_PLACEMARK,
+    createPins: function (aannouncement) {
       var fragment = document.createDocumentFragment();
 
       aannouncement.forEach(function (item, index) {
-        var avatar = aannouncement[index].author.avatar;
-        var alt = aannouncement[index].offer.title;
-        var coordinatesX = aannouncement[index].location.x + window.pin.WIDTH_OF_PLACEMARK / 2;
-        var coordinatesY = aannouncement[index].location.y + window.pin.HEIGHT_OF_PLACEMARK;
+        var markElement = pin.cloneNode(true);
 
-        markElement = pin.cloneNode(true);
         markElement.classList.add('map__pin-generated');
-
         markElement.setAttribute('id', index);
-        createNewElementMark(markElement, avatar, alt, coordinatesX, coordinatesY);
+        createNewElementMark(markElement, aannouncement[index]);
 
         fragment.appendChild(markElement);
       });
 
       mapPins.appendChild(fragment);
-    }, function () {})
+    }
   };
 })();

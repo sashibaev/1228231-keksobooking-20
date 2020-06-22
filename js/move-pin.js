@@ -60,8 +60,8 @@ window.movePin = (function () {
         mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + 'px';
       }
 
-      var pinX = (mapPinMain.offsetLeft - shift.x) + window.pin.WIDTH_OF_PLACEMARK / 2;
-      var pinY = (mapPinMain.offsetTop - shift.y) + window.pin.HEIGHT_OF_PLACEMARK;
+      var pinX = (mapPinMain.offsetLeft - shift.x) + window.pin.widthX;
+      var pinY = (mapPinMain.offsetTop - shift.y) + window.pin.heightY;
 
       placemarkAddress.value = pinX + ', ' + pinY;
     };
