@@ -2,7 +2,7 @@
 
 window.movePin = (function () {
   var mapPinMain = document.querySelector('.map__pin--main');
-  var placemarkAddress = document.getElementById('address');
+  var placemarkAddress = document.querySelector('#address');
   var activeMode = false;
 
   mapPinMain.addEventListener('mousedown', function (evt) {

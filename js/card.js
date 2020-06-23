@@ -15,9 +15,9 @@ window.card = (function () {
   var checkingTheTextMissing = function (value1, value2, value3, value4, value5, value6) {
     if (value1 === '' || value2 === '' || value1 === 0 || value2 === 0) {
       var textContent = '';
-    } else {
-      textContent = value3 + value4 + value5 + value6;
     }
+    textContent = value3 + value4 + value5 + value6;
+
     return textContent;
   };
 

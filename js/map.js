@@ -6,9 +6,9 @@ window.map = (function () {
 
   var createPinCard = function (item) {
     item.addEventListener('click', function () {
-      var pinAll = map.querySelectorAll('.map__pin');
-      for (var i = 0; i < pinAll.length; i++) {
-        pinAll[i].classList.remove('map__pin--active');
+      var allMarks = map.querySelectorAll('.map__pin');
+      for (var i = 0; i < allMarks.length; i++) {
+        allMarks[i].classList.remove('map__pin--active');
       }
       item.classList.add('map__pin--active');
       var numberId = item.getAttribute('id');
@@ -37,9 +37,9 @@ window.map = (function () {
 
   return {
     doWhenClicked: function () {
-      var pinId = document.querySelectorAll('.map__pin-generated');
+      var marksId = document.querySelectorAll('.map__pin-generated');
 
-      pinId.forEach(createPinCard);
+      marksId.forEach(createPinCard);
     }
   };
 })();

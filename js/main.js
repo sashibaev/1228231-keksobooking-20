@@ -7,8 +7,8 @@ window.main = (function () {
   var arrayOfAds;
 
   var adForm = document.querySelector('.ad-form');
-  var formMapFilters = document.querySelector('.map__filters');
-  var formFieldset = adForm.querySelectorAll('fieldset');
+  var formMapFilter = document.querySelector('.map__filters');
+  var formFieldsSet = adForm.querySelectorAll('fieldset');
   var placemarkAddress = document.getElementById('address');
   var map = document.querySelector('.map');
   var mapPinMain = document.querySelector('.map__pin--main');
@@ -29,12 +29,12 @@ window.main = (function () {
   var startCoordsY = mainPlacemarkStyleTop + window.pin.heightY;
   placemarkAddress.value = startCoordsX + ', ' + startCoordsY;
 
-  for (var j = 0; j < formFieldset.length; j++) {
-    addAttributeDisabled(formFieldset, j);
+  for (var j = 0; j < formFieldsSet.length; j++) {
+    addAttributeDisabled(formFieldsSet, j);
   }
 
-  for (j = 0; j < formMapFilters.childNodes.length; j++) {
-    addAttributeDisabled(formMapFilters, j);
+  for (j = 0; j < formMapFilter.childNodes.length; j++) {
+    addAttributeDisabled(formMapFilter, j);
   }
 
   window.load(function (data) {
@@ -49,12 +49,12 @@ window.main = (function () {
     map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
 
-    for (j = 0; j < formFieldset.length; j++) {
-      removeAttributeDisabled(formFieldset, j);
+    for (j = 0; j < formFieldsSet.length; j++) {
+      removeAttributeDisabled(formFieldsSet, j);
     }
 
-    for (j = 0; j < formMapFilters.childNodes.length; j++) {
-      removeAttributeDisabled(formMapFilters, j);
+    for (j = 0; j < formMapFilter.childNodes.length; j++) {
+      removeAttributeDisabled(formMapFilter, j);
     }
 
     var priceForm = document.querySelector('#price');
