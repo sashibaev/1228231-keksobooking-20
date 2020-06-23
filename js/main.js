@@ -3,11 +3,15 @@
 window.main = (function () {
   var mainPlacemarkStyleLeft = 570;
   var mainPlacemarkStyleTop = 375;
+  var activeMode = false;
+  var arrayOfAds;
+
   var adForm = document.querySelector('.ad-form');
   var formMapFilters = document.querySelector('.map__filters');
   var formFieldset = adForm.querySelectorAll('fieldset');
-
   var placemarkAddress = document.getElementById('address');
+  var map = document.querySelector('.map');
+  var mapPinMain = document.querySelector('.map__pin--main');
 
   var addAttributeDisabled = function (element, index) {
     element[index].setAttribute('disabled', 'disabled');
@@ -33,26 +37,47 @@ window.main = (function () {
     addAttributeDisabled(formMapFilters, j);
   }
 
-  return {
-    pageActivation: function () {
-      window.load(function (aannouncement) {
-        window.pin.createPins(aannouncement);
-        console.log(aannouncement);
-        //  window.drawingCard.createNewCard(aannouncement[3]);
-      });
+  window.load(function (data) {
+    window.main.arrayOfAds = data;
+    return (window.main.arrayOfAds);
+  });
 
-      adForm.classList.remove('ad-form--disabled');
+  var pageActivation = function () {
 
-      for (j = 0; j < formFieldset.length; j++) {
-        removeAttributeDisabled(formFieldset, j);
-      }
+    window.pin.createPins(window.main.arrayOfAds);
 
-      for (j = 0; j < formMapFilters.childNodes.length; j++) {
-        removeAttributeDisabled(formMapFilters, j);
-      }
+    map.classList.remove('map--faded');
+    adForm.classList.remove('ad-form--disabled');
 
-      var priceForm = document.querySelector('#price');
-      priceForm.placeholder = '1000';
+    for (j = 0; j < formFieldset.length; j++) {
+      removeAttributeDisabled(formFieldset, j);
     }
+
+    for (j = 0; j < formMapFilters.childNodes.length; j++) {
+      removeAttributeDisabled(formMapFilters, j);
+    }
+
+    var priceForm = document.querySelector('#price');
+    priceForm.placeholder = '1000';
+  };
+
+  mapPinMain.addEventListener('mousedown', function (evt) {
+    if (evt.which === 1 && activeMode === false) {
+      pageActivation();
+      activeMode = true;
+    }
+    window.map.doWhenClicked();
+  });
+
+  mapPinMain.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === 13 && activeMode === false) {
+      pageActivation();
+      activeMode = true;
+    }
+    window.map.doWhenClicked();
+  });
+
+  return {
+    arrayOfAds: arrayOfAds
   };
 })();

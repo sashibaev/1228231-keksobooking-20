@@ -30,10 +30,10 @@ window.movePin = (function () {
         y: moveEvt.clientY
       };
 
-      if ((mapPinMain.offsetLeft - shift.x) < -24) {
+      if ((mapPinMain.offsetLeft - shift.x) < -32) {
         var flag1 = true;
       }
-      if ((mapPinMain.offsetLeft - shift.x) > 1173) {
+      if ((mapPinMain.offsetLeft - shift.x) > 1168) {
         var flag2 = true;
       }
       if ((mapPinMain.offsetTop - shift.y) < 61) {
@@ -44,10 +44,10 @@ window.movePin = (function () {
       }
 
       if (flag1) {
-        mapPinMain.style.left = -24 + 'px';
+        mapPinMain.style.left = -32 + 'px';
       }
       if (flag2) {
-        mapPinMain.style.left = 1173 + 'px';
+        mapPinMain.style.left = 1168 + 'px';
       }
       if (flag3) {
         mapPinMain.style.top = 61 + 'px';

@@ -8,8 +8,6 @@ window.pin = (function () {
   .content
   .querySelector('.map__pin');
 
-  var mapPins = document.querySelector('.map__pins');
-
   var createNewElementMark = function (element, array) {
     var coordinatesX = array.location.x + window.pin.widthX;
     var coordinatesY = array.location.y + window.pin.heightY;
@@ -24,15 +22,16 @@ window.pin = (function () {
   return {
     widthX: WIDTH_OF_PLACEMARK / 2,
     heightY: HEIGHT_OF_PLACEMARK,
-    createPins: function (aannouncement) {
+    createPins: function (array) {
+      var mapPins = document.querySelector('.map__pins');
       var fragment = document.createDocumentFragment();
 
-      aannouncement.forEach(function (item, index) {
+      array.forEach(function (item, index) {
         var markElement = pin.cloneNode(true);
 
         markElement.classList.add('map__pin-generated');
         markElement.setAttribute('id', index);
-        createNewElementMark(markElement, aannouncement[index]);
+        createNewElementMark(markElement, array[index]);
 
         fragment.appendChild(markElement);
       });
