@@ -1,6 +1,6 @@
 'use strict';
 
-(function () {
+window.form = (function () {
   var adForm = document.querySelector('.ad-form');
   var addressForm = document.querySelector('#address');
 

@@ -3,11 +3,15 @@
 window.main = (function () {
   var mainPlacemarkStyleLeft = 570;
   var mainPlacemarkStyleTop = 375;
-  var adForm = document.querySelector('.ad-form');
-  var formMapFilters = document.querySelector('.map__filters');
-  var formFieldset = adForm.querySelectorAll('fieldset');
+  var activeMode = false;
+  var arrayOfAds;
 
+  var adForm = document.querySelector('.ad-form');
+  var formMapFilter = document.querySelector('.map__filters');
+  var formFieldsSet = adForm.querySelectorAll('fieldset');
   var placemarkAddress = document.getElementById('address');
+  var map = document.querySelector('.map');
+  var mapPinMain = document.querySelector('.map__pin--main');
 
   var addAttributeDisabled = function (element, index) {
     element[index].setAttribute('disabled', 'disabled');
@@ -21,33 +25,54 @@ window.main = (function () {
 
   adForm.setAttribute('action', 'https://javascript.pages.academy/keksobooking');
 
-  var startCoordsX = mainPlacemarkStyleLeft + window.data.WIDTH_OF_PLACEMARK / 2;
-  var startCoordsY = mainPlacemarkStyleTop + window.data.HEIGHT_OF_PLACEMARK;
+  var startCoordsX = mainPlacemarkStyleLeft + window.pin.widthX;
+  var startCoordsY = mainPlacemarkStyleTop + window.pin.heightY;
   placemarkAddress.value = startCoordsX + ', ' + startCoordsY;
 
-  for (var j = 0; j < formFieldset.length; j++) {
-    addAttributeDisabled(formFieldset, j);
+  for (var j = 0; j < formFieldsSet.length; j++) {
+    addAttributeDisabled(formFieldsSet, j);
   }
 
-  for (j = 0; j < formMapFilters.childNodes.length; j++) {
-    addAttributeDisabled(formMapFilters, j);
+  for (j = 0; j < formMapFilter.childNodes.length; j++) {
+    addAttributeDisabled(formMapFilter, j);
   }
+
+  window.load.getDataFromTheServer(function (data) {
+    window.main.arrayOfAds = data;
+    return (window.main.arrayOfAds);
+  });
+
+  mapPinMain.addEventListener('mousedown', function (evt) {
+    if (evt.which === 1 && activeMode === false) {
+      window.main.pageActivation();
+      activeMode = true;
+    }
+    window.map.doWhenClicked();
+  });
+
+  mapPinMain.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === 13 && activeMode === false) {
+      window.main.pageActivation();
+      activeMode = true;
+    }
+    window.map.doWhenClicked();
+  });
 
   return {
-    createCloneElement: function (element) {
-      return element.cloneNode(true);
-    },
+    arrayOfAds: arrayOfAds,
     pageActivation: function () {
-      window.pin.createPins();
 
+      window.pin.createPins(window.main.arrayOfAds);
+
+      map.classList.remove('map--faded');
       adForm.classList.remove('ad-form--disabled');
 
-      for (j = 0; j < formFieldset.length; j++) {
-        removeAttributeDisabled(formFieldset, j);
+      for (j = 0; j < formFieldsSet.length; j++) {
+        removeAttributeDisabled(formFieldsSet, j);
       }
 
-      for (j = 0; j < formMapFilters.childNodes.length; j++) {
-        removeAttributeDisabled(formMapFilters, j);
+      for (j = 0; j < formMapFilter.childNodes.length; j++) {
+        removeAttributeDisabled(formMapFilter, j);
       }
 
       var priceForm = document.querySelector('#price');

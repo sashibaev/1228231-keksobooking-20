@@ -2,7 +2,7 @@
 
 window.movePin = (function () {
   var mapPinMain = document.querySelector('.map__pin--main');
-  var placemarkAddress = document.getElementById('address');
+  var placemarkAddress = document.querySelector('#address');
   var activeMode = false;
 
   mapPinMain.addEventListener('mousedown', function (evt) {
@@ -30,10 +30,10 @@ window.movePin = (function () {
         y: moveEvt.clientY
       };
 
-      if ((mapPinMain.offsetLeft - shift.x) < -24) {
+      if ((mapPinMain.offsetLeft - shift.x) < -32) {
         var flag1 = true;
       }
-      if ((mapPinMain.offsetLeft - shift.x) > 1173) {
+      if ((mapPinMain.offsetLeft - shift.x) > 1168) {
         var flag2 = true;
       }
       if ((mapPinMain.offsetTop - shift.y) < 61) {
@@ -44,10 +44,10 @@ window.movePin = (function () {
       }
 
       if (flag1) {
-        mapPinMain.style.left = -24 + 'px';
+        mapPinMain.style.left = -32 + 'px';
       }
       if (flag2) {
-        mapPinMain.style.left = 1173 + 'px';
+        mapPinMain.style.left = 1168 + 'px';
       }
       if (flag3) {
         mapPinMain.style.top = 61 + 'px';
@@ -60,8 +60,8 @@ window.movePin = (function () {
         mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + 'px';
       }
 
-      var pinX = (mapPinMain.offsetLeft - shift.x) + window.data.WIDTH_OF_PLACEMARK / 2;
-      var pinY = (mapPinMain.offsetTop - shift.y) + window.data.HEIGHT_OF_PLACEMARK;
+      var pinX = (mapPinMain.offsetLeft - shift.x) + window.pin.widthX;
+      var pinY = (mapPinMain.offsetTop - shift.y) + window.pin.heightY;
 
       placemarkAddress.value = pinX + ', ' + pinY;
     };

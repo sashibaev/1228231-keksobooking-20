@@ -13,16 +13,16 @@ window.card = (function () {
   };
 
   var checkingTheTextMissing = function (value1, value2, value3, value4, value5, value6) {
-    if (value1 === '' || value2 === '') {
+    if (value1 === '' || value2 === '' || value1 === 0 || value2 === 0) {
       var textContent = '';
-    } else {
-      textContent = value3 + value4 + value5 + value6;
     }
+    textContent = value3 + value4 + value5 + value6;
+
     return textContent;
   };
 
   return {
-    createNewElementCard: function (element, title, address, price, type, rooms, guest, checkin, checkout, features, description, srcPhoto, srcAvatar) {
+    createNewElementCard: function (element, array) {
       var textRooms1 = ' комната для ';
       var textRooms2 = ' комнаты для ';
       var textRooms3 = ' комнат ';
@@ -31,20 +31,26 @@ window.card = (function () {
       var textPrice = '₽/ночь';
       var textCheckin = 'Заезд после ';
       var textCheckout = ', Выезд до ';
+      var roomsArray = array.offer.rooms;
+      var guestsArray = array.offer.guests;
+      var checkinArray = array.offer.checkin;
+      var checkoutArray = array.offer.checkout;
+      var priceArray = array.offer.price;
+      var srcPhoto = array.offer.photos[0];
 
-      var textRooms = checkingCondition(rooms, textRooms1, textRooms2, textRooms3);
-      var textGuest = checkingCondition(guest, textGuest1, textGuest2, '');
+      var textRooms = checkingCondition(roomsArray, textRooms1, textRooms2, textRooms3);
+      var textGuest = checkingCondition(guestsArray, textGuest1, textGuest2, '');
 
-      element.querySelector('.popup__title').textContent = title;
-      element.querySelector('.popup__text--address').textContent = address;
-      element.querySelector('.popup__text--price').textContent = checkingTheTextMissing(price, null, price, textPrice, '', '');
-      element.querySelector('.popup__type').textContent = type;
-      element.querySelector('.popup__text--capacity').textContent = checkingTheTextMissing(rooms, guest, rooms, textRooms, guest, textGuest);
-      element.querySelector('.popup__text--time').textContent = checkingTheTextMissing(checkin, checkout, textCheckin, checkin, textCheckout, checkout);
-      element.querySelector('.popup__features').textContent = features;
-      element.querySelector('.popup__description').textContent = description;
+      element.querySelector('.popup__title').textContent = array.offer.title;
+      element.querySelector('.popup__text--address').textContent = array.offer.address;
+      element.querySelector('.popup__text--price').textContent = checkingTheTextMissing(priceArray, null, priceArray, textPrice, '', '');
+      element.querySelector('.popup__type').textContent = array.offer.type;
+      element.querySelector('.popup__text--capacity').textContent = checkingTheTextMissing(roomsArray, guestsArray, roomsArray, textRooms, guestsArray, textGuest);
+      element.querySelector('.popup__text--time').textContent = checkingTheTextMissing(checkinArray, checkoutArray, textCheckin, checkinArray, textCheckout, checkoutArray);
+      element.querySelector('.popup__features').textContent = array.offer.features;
+      element.querySelector('.popup__description').textContent = array.offer.description;
       element.querySelector('.popup__photo').src = srcPhoto;
-      element.querySelector('.popup__avatar').src = srcAvatar;
+      element.querySelector('.popup__avatar').src = array.author.avatar;
 
       return element;
     }
