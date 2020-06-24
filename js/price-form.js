@@ -2,7 +2,12 @@
 
 window.priceForm = (function () {
   var MAX_PRICE = 1000000;
+
   var minPrice = 1000;
+  var typeOfHousingBungalo = 'bungalo';
+  var typeOfHousingFlat = 'flat';
+  var typeOfHousingHouse = 'house';
+  var typeOfHousingPalace = 'palace';
 
   var priceForm = document.querySelector('#price');
   var typeForm = document.querySelector('#type');
@@ -32,20 +37,19 @@ window.priceForm = (function () {
   });
 
   typeForm.addEventListener('change', function () {
-    if (typeForm.value === 'bungalo') {
+    if (typeForm.value === typeOfHousingBungalo) {
       minPrice = 0;
       priceForm.placeholder = '0';
-    } else if (typeForm.value === 'flat') {
+    } else if (typeForm.value === typeOfHousingFlat) {
       minPrice = 1000;
       priceForm.placeholder = '1000';
-    } else if (typeForm.value === 'house') {
+    } else if (typeForm.value === typeOfHousingHouse) {
       minPrice = 5000;
       priceForm.placeholder = '5000';
-    } else {
+    } else if (typeForm.value === typeOfHousingPalace) {
       minPrice = 10000;
       priceForm.placeholder = '10000';
     }
-
     priceFormIf();
   });
 })();

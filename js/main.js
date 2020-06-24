@@ -1,6 +1,8 @@
 'use strict';
 
 window.main = (function () {
+  var KEY_ENTER = 13;
+
   var mainPlacemarkStyleLeft = 570;
   var mainPlacemarkStyleTop = 375;
   var activeMode = false;
@@ -29,21 +31,40 @@ window.main = (function () {
   var startCoordsY = mainPlacemarkStyleTop + window.pin.heightY;
   placemarkAddress.value = startCoordsX + ', ' + startCoordsY;
 
-  for (var j = 0; j < formFieldsSet.length; j++) {
-    addAttributeDisabled(formFieldsSet, j);
-  }
+  formFieldsSet.forEach(function (item, index) {
+    addAttributeDisabled(formFieldsSet, index);
+  });
 
-  for (j = 0; j < formMapFilter.childNodes.length; j++) {
-    addAttributeDisabled(formMapFilter, j);
-  }
+  formMapFilter.childNodes.forEach(function (item, index) {
+    addAttributeDisabled(formMapFilter, index);
+  });
 
   window.load.getDataFromTheServer(function (data) {
     window.main.arrayOfAds = data;
     return (window.main.arrayOfAds);
   });
 
+  var pageActivation = function () {
+
+    window.pin.createPins(window.main.arrayOfAds);
+
+    map.classList.remove('map--faded');
+    adForm.classList.remove('ad-form--disabled');
+
+    formFieldsSet.forEach(function (item, index) {
+      removeAttributeDisabled(formFieldsSet, index);
+    });
+
+    formMapFilter.childNodes.forEach(function (item, index) {
+      removeAttributeDisabled(formMapFilter, index);
+    });
+
+    var priceForm = document.querySelector('#price');
+    priceForm.placeholder = '1000';
+  };
+
   mapPinMain.addEventListener('mousedown', function (evt) {
-    if (evt.which === 1 && activeMode === false) {
+    if (evt.which === window.main.MAIN_MOUSE_BUTTON && activeMode === false) {
       window.main.pageActivation();
       activeMode = true;
     }
@@ -51,7 +72,7 @@ window.main = (function () {
   });
 
   mapPinMain.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === 13 && activeMode === false) {
+    if (evt.keyCode === KEY_ENTER && activeMode === false) {
       window.main.pageActivation();
       activeMode = true;
     }
@@ -59,24 +80,8 @@ window.main = (function () {
   });
 
   return {
+    MAIN_MOUSE_BUTTON: 1,
     arrayOfAds: arrayOfAds,
-    pageActivation: function () {
-
-      window.pin.createPins(window.main.arrayOfAds);
-
-      map.classList.remove('map--faded');
-      adForm.classList.remove('ad-form--disabled');
-
-      for (j = 0; j < formFieldsSet.length; j++) {
-        removeAttributeDisabled(formFieldsSet, j);
-      }
-
-      for (j = 0; j < formMapFilter.childNodes.length; j++) {
-        removeAttributeDisabled(formMapFilter, j);
-      }
-
-      var priceForm = document.querySelector('#price');
-      priceForm.placeholder = '1000';
-    }
+    pageActivation: pageActivation
   };
 })();
