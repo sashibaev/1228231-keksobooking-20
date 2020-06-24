@@ -37,33 +37,14 @@ window.main = (function () {
     addAttributeDisabled(formMapFilter, j);
   }
 
-  window.load(function (data) {
+  window.load.getDataFromTheServer(function (data) {
     window.main.arrayOfAds = data;
     return (window.main.arrayOfAds);
   });
 
-  var pageActivation = function () {
-
-    window.pin.createPins(window.main.arrayOfAds);
-
-    map.classList.remove('map--faded');
-    adForm.classList.remove('ad-form--disabled');
-
-    for (j = 0; j < formFieldsSet.length; j++) {
-      removeAttributeDisabled(formFieldsSet, j);
-    }
-
-    for (j = 0; j < formMapFilter.childNodes.length; j++) {
-      removeAttributeDisabled(formMapFilter, j);
-    }
-
-    var priceForm = document.querySelector('#price');
-    priceForm.placeholder = '1000';
-  };
-
   mapPinMain.addEventListener('mousedown', function (evt) {
     if (evt.which === 1 && activeMode === false) {
-      pageActivation();
+      window.main.pageActivation();
       activeMode = true;
     }
     window.map.doWhenClicked();
@@ -71,13 +52,31 @@ window.main = (function () {
 
   mapPinMain.addEventListener('keydown', function (evt) {
     if (evt.keyCode === 13 && activeMode === false) {
-      pageActivation();
+      window.main.pageActivation();
       activeMode = true;
     }
     window.map.doWhenClicked();
   });
 
   return {
-    arrayOfAds: arrayOfAds
+    arrayOfAds: arrayOfAds,
+    pageActivation: function () {
+
+      window.pin.createPins(window.main.arrayOfAds);
+
+      map.classList.remove('map--faded');
+      adForm.classList.remove('ad-form--disabled');
+
+      for (j = 0; j < formFieldsSet.length; j++) {
+        removeAttributeDisabled(formFieldsSet, j);
+      }
+
+      for (j = 0; j < formMapFilter.childNodes.length; j++) {
+        removeAttributeDisabled(formMapFilter, j);
+      }
+
+      var priceForm = document.querySelector('#price');
+      priceForm.placeholder = '1000';
+    }
   };
 })();
