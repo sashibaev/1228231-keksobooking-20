@@ -13,20 +13,22 @@ window.main = (function () {
 
   var main = document.querySelector('main');
   var adForm = document.querySelector('.ad-form');
-  var formMapFilter = document.querySelector('.map__filters');
-  var formFieldsSet = adForm.querySelectorAll('fieldset');
+  var filtersMapForm = document.querySelector('.map__filters');
+  var formFiltersFieldsets = filtersMapForm.querySelectorAll('fieldset');
+  var formFiltersSelectes = filtersMapForm.querySelectorAll('select');
+  var adFormFieldsets = adForm.querySelectorAll('fieldset');
   var map = document.querySelector('.map');
   var mapPinMain = document.querySelector('.map__pin--main');
   var buttonResetForm = document.querySelector('.ad-form__reset');
 
-  var addAttributeDisabled = function (element, index) {
-    element[index].setAttribute('disabled', 'disabled');
-    return element[index];
+  var addAttributeDisabled = function (element) {
+    element.setAttribute('disabled', 'disabled');
+    return element;
   };
 
-  var removeAttributeDisabled = function (element, index) {
-    element[index].removeAttribute('disabled', 'disabled');
-    return element[index];
+  var removeAttributeDisabled = function (element) {
+    element.removeAttribute('disabled', 'disabled');
+    return element;
   };
 
   adForm.setAttribute('action', 'https://javascript.pages.academy/keksobooking');
@@ -34,12 +36,16 @@ window.main = (function () {
   var disableStateOfThePage = function () {
     activeMode = false;
 
-    formFieldsSet.forEach(function (item, index) {
-      addAttributeDisabled(formFieldsSet, index);
+    adFormFieldsets.forEach(function (formFieldset) {
+      addAttributeDisabled(formFieldset);
     });
 
-    formMapFilter.childNodes.forEach(function (item, index) {
-      addAttributeDisabled(formMapFilter, index);
+    formFiltersSelectes.forEach(function (formFiltersSelect) {
+      addAttributeDisabled(formFiltersSelect);
+    });
+
+    formFiltersFieldsets.forEach(function (formFiltersFieldset) {
+      addAttributeDisabled(formFiltersFieldset);
     });
 
     map.classList.add('map--faded');
@@ -84,12 +90,16 @@ window.main = (function () {
     map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
 
-    formFieldsSet.forEach(function (item, index) {
-      removeAttributeDisabled(formFieldsSet, index);
+    adFormFieldsets.forEach(function (formFieldset) {
+      removeAttributeDisabled(formFieldset);
     });
 
-    formMapFilter.childNodes.forEach(function (item, index) {
-      removeAttributeDisabled(formMapFilter, index);
+    formFiltersSelectes.forEach(function (formFiltersSelect) {
+      removeAttributeDisabled(formFiltersSelect);
+    });
+
+    formFiltersFieldsets.forEach(function (formFiltersFieldset) {
+      removeAttributeDisabled(formFiltersFieldset);
     });
   };
 

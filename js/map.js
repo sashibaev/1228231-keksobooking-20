@@ -8,8 +8,8 @@ window.map = (function () {
     item.addEventListener('click', function () {
       var allMarks = map.querySelectorAll('.map__pin');
 
-      allMarks.forEach(function (element, index) {
-        allMarks[index].classList.remove('map__pin--active');
+      allMarks.forEach(function (mark) {
+        mark.classList.remove('map__pin--active');
       });
 
       item.classList.add('map__pin--active');
