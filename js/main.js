@@ -4,6 +4,7 @@ window.main = (function () {
   var KEY_ENTER = 13;
   var KEY_ESC = 27;
   var MAIN_MOUSE_BUTTON = 1;
+  var guestValueForm = '1';
 
   var mainPlacemarkStyleLeft = 570;
   var mainPlacemarkStyleTop = 375;
@@ -61,8 +62,9 @@ window.main = (function () {
 
     var guestOptionForm = adForm.querySelector('#capacity').getElementsByTagName('option');
     for (var i = 0; i < guestOptionForm.length; i++) {
-      if (guestOptionForm[i].value === '1') {
+      if (guestOptionForm[i].value === guestValueForm) {
         guestOptionForm[i].selected = true;
+        break;
       }
     }
   };
