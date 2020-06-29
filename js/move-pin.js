@@ -87,7 +87,7 @@ window.movePin = (function () {
       } else {
 
         if (evt.which === window.main.MAIN_MOUSE_BUTTON && activeMode === false) {
-          window.main.pageActivation();
+          window.main.activateThePage();
           activeMode = true;
         }
         window.map.doWhenClicked();

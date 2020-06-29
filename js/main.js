@@ -75,7 +75,7 @@ window.main = (function () {
     return (window.main.arrayOfAds);
   });
 
-  var pageActivation = function () {
+  var activateThePage = function () {
 
     window.pin.createPins(window.main.arrayOfAds);
 
@@ -129,7 +129,7 @@ window.main = (function () {
   var createElementClick = function (element, elementClick) {
     mapPinMain.addEventListener(element, function (evt) {
       if (evt.which === elementClick && activeMode === false) {
-        window.main.pageActivation();
+        window.main.activateThePage();
         activeMode = true;
       }
       window.map.doWhenClicked();
@@ -143,7 +143,7 @@ window.main = (function () {
     MAIN_MOUSE_BUTTON: MAIN_MOUSE_BUTTON,
     KEY_ESC: KEY_ESC,
     arrayOfAds: arrayOfAds,
-    pageActivation: pageActivation,
+    activateThePage: activateThePage,
     disableStateOfThePage: disableStateOfThePage,
     setInitialDataForm: setInitialDataForm,
     createSuccessfulFormSubmission: createSuccessfulFormSubmission,
