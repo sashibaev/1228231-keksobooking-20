@@ -19,24 +19,26 @@ window.pin = (function () {
     return element;
   };
 
+  var createPins = function (array) {
+    var mapPins = document.querySelector('.map__pins');
+    var fragment = document.createDocumentFragment();
+
+    array.forEach(function (item, index) {
+      var markElement = pin.cloneNode(true);
+
+      markElement.classList.add('map__pin-generated');
+      markElement.setAttribute('id', index);
+      createNewElementMark(markElement, array[index]);
+
+      fragment.appendChild(markElement);
+    });
+
+    mapPins.appendChild(fragment);
+  };
+
   return {
     widthX: WIDTH_OF_PLACEMARK / 2,
     heightY: HEIGHT_OF_PLACEMARK,
-    createPins: function (array) {
-      var mapPins = document.querySelector('.map__pins');
-      var fragment = document.createDocumentFragment();
-
-      array.forEach(function (item, index) {
-        var markElement = pin.cloneNode(true);
-
-        markElement.classList.add('map__pin-generated');
-        markElement.setAttribute('id', index);
-        createNewElementMark(markElement, array[index]);
-
-        fragment.appendChild(markElement);
-      });
-
-      mapPins.appendChild(fragment);
-    }
+    createPins: createPins
   };
 })();

@@ -1,6 +1,11 @@
 'use strict';
 
 window.movePin = (function () {
+  var LEFT_BORDER_MAP = -32;
+  var RIGHT_BORDER_MAP = 1168;
+  var TOP_BORDER_MAP = 61;
+  var BOTTOM_BORDER_MAP = 559;
+
   var mapPinMain = document.querySelector('.map__pin--main');
   var placemarkAddress = document.querySelector('#address');
   var activeMode = false;
@@ -30,30 +35,30 @@ window.movePin = (function () {
         y: moveEvt.clientY
       };
 
-      if ((mapPinMain.offsetLeft - shift.x) < -32) {
+      if ((mapPinMain.offsetLeft - shift.x) < LEFT_BORDER_MAP) {
         var flag1 = true;
       }
-      if ((mapPinMain.offsetLeft - shift.x) > 1168) {
+      if ((mapPinMain.offsetLeft - shift.x) > RIGHT_BORDER_MAP) {
         var flag2 = true;
       }
-      if ((mapPinMain.offsetTop - shift.y) < 61) {
+      if ((mapPinMain.offsetTop - shift.y) < TOP_BORDER_MAP) {
         var flag3 = true;
       }
-      if ((mapPinMain.offsetTop - shift.y) > 559) {
+      if ((mapPinMain.offsetTop - shift.y) > BOTTOM_BORDER_MAP) {
         var flag4 = true;
       }
 
       if (flag1) {
-        mapPinMain.style.left = -32 + 'px';
+        mapPinMain.style.left = LEFT_BORDER_MAP + 'px';
       }
       if (flag2) {
-        mapPinMain.style.left = 1168 + 'px';
+        mapPinMain.style.left = RIGHT_BORDER_MAP + 'px';
       }
       if (flag3) {
-        mapPinMain.style.top = 61 + 'px';
+        mapPinMain.style.top = TOP_BORDER_MAP + 'px';
       }
       if (flag4) {
-        mapPinMain.style.top = 559 + 'px';
+        mapPinMain.style.top = BOTTOM_BORDER_MAP + 'px';
       }
       if (!flag1 && !flag2 && !flag3 && !flag4) {
         mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + 'px';
@@ -81,8 +86,8 @@ window.movePin = (function () {
         document.addEventListener('click', onClickPreventDefault);
       } else {
 
-        if (evt.which === 1 && activeMode === false) {
-          window.main.pageActivation();
+        if (evt.which === window.main.MAIN_MOUSE_BUTTON && activeMode === false) {
+          window.main.activateThePage();
           activeMode = true;
         }
         window.map.doWhenClicked();
