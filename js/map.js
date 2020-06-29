@@ -1,7 +1,6 @@
 'use strict';
 
 window.map = (function () {
-  var KEY_ESC = 27;
   var cardElement;
   var map = document.querySelector('.map');
 
@@ -24,11 +23,7 @@ window.map = (function () {
 
       var popupClose = map.querySelector('.popup__close');
 
-      popupClose.addEventListener('mousedown', function (evt) {
-        if (evt.which === window.main.MAIN_MOUSE_BUTTON) {
-          cardElement.remove();
-        }
-      });
+      window.util.mouseAddEventListener(popupClose, cardElement);
     });
   };
 
@@ -38,11 +33,7 @@ window.map = (function () {
     marksId.forEach(createPinCard);
   };
 
-  map.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === KEY_ESC) {
-      cardElement.remove();
-    }
-  });
+  window.util.keyAddEventListener(map, cardElement);
 
   return {
     doWhenClicked: doWhenClicked
