@@ -23,6 +23,11 @@ window.pin = (function () {
     var mapPins = document.querySelector('.map__pins');
     var fragment = document.createDocumentFragment();
     var index = -1;
+
+    if (array.length > 5) {
+      array = array.slice(4);
+    }
+
     array.forEach(function (item) {
       var markElement = pin.cloneNode(true);
 

@@ -4,12 +4,13 @@ window.main = (function () {
   var KEY_ENTER = 13;
   var KEY_ESC = 27;
   var MAIN_MOUSE_BUTTON = 1;
-  var guestValueForm = '1';
+  var GUEST_VALUE_FORM = '1';
 
   var mainPlacemarkStyleLeft = 570;
   var mainPlacemarkStyleTop = 375;
   var activeMode = false;
   var arrayOfAds;
+  var newArrayOfAds;
 
   var main = document.querySelector('main');
   var adForm = document.querySelector('.ad-form');
@@ -66,10 +67,11 @@ window.main = (function () {
 
     placemarkAddress.value = startCoordsX + ', ' + startCoordsY;
 
-    var guestOptionForm = adForm.querySelector('#capacity').getElementsByTagName('option');
-    for (var i = 0; i < guestOptionForm.length; i++) {
-      if (guestOptionForm[i].value === guestValueForm) {
-        guestOptionForm[i].selected = true;
+    var guestOptionsForm = adForm.querySelector('#capacity').getElementsByTagName('option');
+
+    for (var i = 0; i < guestOptionsForm.length; i++) {
+      if (guestOptionsForm[i].value === GUEST_VALUE_FORM) {
+        guestOptionsForm[i].selected = true;
         break;
       }
     }
@@ -84,8 +86,9 @@ window.main = (function () {
   });
 
   var activateThePage = function () {
+    window.main.newArrayOfAds = window.main.arrayOfAds;
 
-    window.pin.createPins(window.main.arrayOfAds);
+    window.pin.createPins(window.main.newArrayOfAds);
 
     map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
@@ -155,6 +158,7 @@ window.main = (function () {
     MAIN_MOUSE_BUTTON: MAIN_MOUSE_BUTTON,
     KEY_ESC: KEY_ESC,
     arrayOfAds: arrayOfAds,
+    newArrayOfAds: newArrayOfAds,
     activateThePage: activateThePage,
     disableStateOfThePage: disableStateOfThePage,
     setInitialDataForm: setInitialDataForm,

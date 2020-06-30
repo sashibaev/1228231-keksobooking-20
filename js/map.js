@@ -4,6 +4,12 @@ window.map = (function () {
   var cardElement;
   var map = document.querySelector('.map');
 
+  var howToCreateMap = function () {
+    if (cardElement) {
+      cardElement.remove();
+    }
+  };
+
   var createPinCard = function (item) {
     item.addEventListener('click', function () {
       var allMarks = map.querySelectorAll('.map__pin');
@@ -15,12 +21,9 @@ window.map = (function () {
       item.classList.add('map__pin--active');
       var numberId = item.getAttribute('id');
 
-      if (cardElement) {
-        cardElement.remove();
-      }
+      window.map.howToCreateMap();
 
       cardElement = window.drawingCard.createNewCard(window.main.arrayOfAds[numberId]);
-
       var popupClose = map.querySelector('.popup__close');
 
       window.util.mouseAddEventListener(popupClose, cardElement);
@@ -36,6 +39,7 @@ window.map = (function () {
   window.util.keyAddEventListener(map, cardElement);
 
   return {
-    doWhenClicked: doWhenClicked
+    doWhenClicked: doWhenClicked,
+    howToCreateMap: howToCreateMap
   };
 })();

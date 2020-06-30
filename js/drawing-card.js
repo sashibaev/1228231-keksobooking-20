@@ -13,7 +13,6 @@ window.drawingCard = (function () {
     var fragment = document.createDocumentFragment();
 
     var cardElement = card.cloneNode(true);
-
     cardElement = window.card.createNewElementCard(cardElement, array);
 
     map.insertBefore(cardElement, mapFilter);
@@ -22,15 +21,17 @@ window.drawingCard = (function () {
     var popupPhoto = document.querySelector('.popup__photo');
     var srcPhotoList = array.offer.photos;
 
-    for (var i = 1; i < srcPhotoList.length; i++) {
-      var srcPhotosElement = array.offer.photos[i];
+    srcPhotoList.shift();
+
+    srcPhotoList.forEach(function (srcPhotoElement) {
+      var srcPhotosElement = srcPhotoElement;
 
       var photoElement = popupPhoto.cloneNode(true);
       photoElement.classList.add('popup__photo');
       photoElement.src = srcPhotosElement;
 
       fragment.appendChild(photoElement);
-    }
+    });
     popupPhotos.appendChild(fragment);
 
     return (cardElement);

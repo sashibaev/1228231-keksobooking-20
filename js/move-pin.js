@@ -1,10 +1,12 @@
 'use strict';
 
 window.movePin = (function () {
-  var LEFT_BORDER_MAP = -32;
-  var RIGHT_BORDER_MAP = 1168;
-  var TOP_BORDER_MAP = 61;
-  var BOTTOM_BORDER_MAP = 559;
+  var Map = {
+    LEFT_BORDER: -32,
+    RIGHT_BORDER: 1168,
+    TOP_BORDER: 61,
+    BOTTOM_BORDER: 559
+  };
 
   var mapPinMain = document.querySelector('.map__pin--main');
   var placemarkAddress = document.querySelector('#address');
@@ -35,30 +37,30 @@ window.movePin = (function () {
         y: moveEvt.clientY
       };
 
-      if ((mapPinMain.offsetLeft - shift.x) < LEFT_BORDER_MAP) {
+      if ((mapPinMain.offsetLeft - shift.x) < Map.LEFT_BORDER) {
         var flag1 = true;
       }
-      if ((mapPinMain.offsetLeft - shift.x) > RIGHT_BORDER_MAP) {
+      if ((mapPinMain.offsetLeft - shift.x) > Map.RIGHT_BORDER) {
         var flag2 = true;
       }
-      if ((mapPinMain.offsetTop - shift.y) < TOP_BORDER_MAP) {
+      if ((mapPinMain.offsetTop - shift.y) < Map.TOP_BORDER) {
         var flag3 = true;
       }
-      if ((mapPinMain.offsetTop - shift.y) > BOTTOM_BORDER_MAP) {
+      if ((mapPinMain.offsetTop - shift.y) > Map.BOTTOM_BORDER) {
         var flag4 = true;
       }
 
       if (flag1) {
-        mapPinMain.style.left = LEFT_BORDER_MAP + 'px';
+        mapPinMain.style.left = Map.LEFT_BORDER + 'px';
       }
       if (flag2) {
-        mapPinMain.style.left = RIGHT_BORDER_MAP + 'px';
+        mapPinMain.style.left = Map.RIGHT_BORDER + 'px';
       }
       if (flag3) {
-        mapPinMain.style.top = TOP_BORDER_MAP + 'px';
+        mapPinMain.style.top = Map.TOP_BORDER + 'px';
       }
       if (flag4) {
-        mapPinMain.style.top = BOTTOM_BORDER_MAP + 'px';
+        mapPinMain.style.top = Map.BOTTOM_BORDER + 'px';
       }
       if (!flag1 && !flag2 && !flag3 && !flag4) {
         mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + 'px';

@@ -1,16 +1,22 @@
 'use strict';
 
 window.form = (function () {
-  var ROOMS_ONE = '1';
-  var ROOMS_TWO = '2';
-  var ROOMS_THREE = '3';
-  var ROOMS_ONE_HUNDRED = '100';
-  var GUEST_ZERO = '0';
-  var GUEST_ONE = '1';
-  var GUEST_THREE = '3';
-  var TIME_TWELVE = '12:00';
-  var TIME_THIRTEEN = '13:00';
-  var TIME_FOURTEEN = '14:00';
+  var Rooms = {
+    ONE: '1',
+    TWO: '2',
+    THREE: '3',
+    ONE_HUNDRED: '100'
+  };
+  var Guest = {
+    ZERO: '0',
+    ONE: '1',
+    THREE: '3'
+  };
+  var Time = {
+    TWELVE: '12:00',
+    THIRTEEN: '13:00',
+    FOURTEEN: '14:00'
+  };
 
   var adForm = document.querySelector('.ad-form');
   var addressForm = adForm.querySelector('#address');
@@ -20,43 +26,59 @@ window.form = (function () {
   var timeoutForm = adForm.querySelector('#timeout');
   var buttonSubmitForm = document.querySelector('.ad-form__submit');
 
-  addressForm.addEventListener('invalid', function () {
-    if (addressForm.validaty.valueMissing) {
-      addressForm.setCustomValidity('Обязательное поле для заполнения');
-    } else {
-      addressForm.setCustomValidity('');
-    }
-  });
+  addressForm.setAttribute('readonly', 'readonly');
 
   adForm.addEventListener('change', function () {
-    if (roomNumberForm.value === ROOMS_ONE && capacityForm.value !== GUEST_ONE) {
+    if (roomNumberForm.value === Rooms.ONE && capacityForm.value !== Guest.ONE) {
       roomNumberForm.setCustomValidity('1 комната — «для 1 гостя»');
-    } else if (roomNumberForm.value === ROOMS_TWO && capacityForm.value === GUEST_THREE || roomNumberForm.value === ROOMS_TWO && capacityForm.value === GUEST_ZERO) {
+    } else if (roomNumberForm.value === Rooms.TWO && capacityForm.value === Guest.THREE || roomNumberForm.value === Rooms.TWO && capacityForm.value === Guest.ZERO) {
       roomNumberForm.setCustomValidity('2 комнаты — «для 2 гостей» или «для 1 гостя»');
-    } else if (roomNumberForm.value === ROOMS_THREE && capacityForm.value === GUEST_ZERO) {
+    } else if (roomNumberForm.value === Rooms.THREE && capacityForm.value === Guest.ZERO) {
       roomNumberForm.setCustomValidity('3 комнаты — «для 3 гостей», «для 2 гостей» или «для 1 гостя»');
-    } else if (roomNumberForm.value === ROOMS_ONE_HUNDRED && capacityForm.value !== GUEST_ZERO) {
+    } else if (roomNumberForm.value === Rooms.ONE_HUNDRED && capacityForm.value !== Guest.ZERO) {
       roomNumberForm.setCustomValidity('100 комнат — «не для гостей»');
     } else {
       roomNumberForm.setCustomValidity('');
     }
+  });
 
-    if (timeinForm.value === TIME_TWELVE && timeoutForm.value !== TIME_TWELVE) {
-      timeinForm.setCustomValidity('время заезда после 12:00 — время выезда до 12:00');
-    } else if (timeinForm.value === TIME_THIRTEEN && timeoutForm.value !== TIME_THIRTEEN) {
-      timeinForm.setCustomValidity('время заезда после 13:00 — время выезда до 13:00');
-    } else if (timeinForm.value === TIME_FOURTEEN && timeoutForm.value !== TIME_FOURTEEN) {
-      timeinForm.setCustomValidity('время заезда после 14:00 — время выезда до 14:00');
-    } else {
-      timeinForm.setCustomValidity('');
+  timeinForm.addEventListener('change', function () {
+    switch (timeinForm.value) {
+      case Time.TWELVE:
+        timeoutForm.value = Time.TWELVE;
+        break;
+      case Time.THIRTEEN:
+        timeoutForm.value = Time.THIRTEEN;
+        break;
+      case Time.FOURTEEN:
+        timeoutForm.value = Time.FOURTEEN;
+        break;
     }
   });
 
-  var successfullySubmitTheForm = function () {
+  timeoutForm.addEventListener('change', function () {
+    switch (timeoutForm.value) {
+      case Time.TWELVE:
+        timeinForm.value = Time.TWELVE;
+        break;
+      case Time.THIRTEEN:
+        timeinForm.value = Time.THIRTEEN;
+        break;
+      case Time.FOURTEEN:
+        timeinForm.value = Time.FOURTEEN;
+        break;
+    }
+  });
+
+  var removePinsOnTheMap = function () {
     var createdPlacemarksOnTheMap = document.querySelectorAll('.map__pin-generated');
     createdPlacemarksOnTheMap.forEach(function (item, index) {
       createdPlacemarksOnTheMap[index].remove();
     });
+  };
+
+  var successfullySubmitTheForm = function () {
+    window.form.removePinsOnTheMap();
 
     adForm.reset();
     window.main.disableStateOfThePage();
@@ -70,4 +92,8 @@ window.form = (function () {
     evt.preventDefault();
     successfullySubmitTheForm();
   });
+
+  return {
+    removePinsOnTheMap: removePinsOnTheMap
+  };
 })();
