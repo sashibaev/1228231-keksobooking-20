@@ -12,11 +12,6 @@ window.form = (function () {
     ONE: '1',
     THREE: '3'
   };
-  var Time = {
-    TWELVE: '12:00',
-    THIRTEEN: '13:00',
-    FOURTEEN: '14:00'
-  };
 
   var adForm = document.querySelector('.ad-form');
   var addressForm = adForm.querySelector('#address');
@@ -43,37 +38,17 @@ window.form = (function () {
   });
 
   timeinForm.addEventListener('change', function () {
-    switch (timeinForm.value) {
-      case Time.TWELVE:
-        timeoutForm.value = Time.TWELVE;
-        break;
-      case Time.THIRTEEN:
-        timeoutForm.value = Time.THIRTEEN;
-        break;
-      case Time.FOURTEEN:
-        timeoutForm.value = Time.FOURTEEN;
-        break;
-    }
+    timeoutForm.value = timeinForm.value;
   });
 
   timeoutForm.addEventListener('change', function () {
-    switch (timeoutForm.value) {
-      case Time.TWELVE:
-        timeinForm.value = Time.TWELVE;
-        break;
-      case Time.THIRTEEN:
-        timeinForm.value = Time.THIRTEEN;
-        break;
-      case Time.FOURTEEN:
-        timeinForm.value = Time.FOURTEEN;
-        break;
-    }
+    timeinForm.value = timeoutForm.value;
   });
 
   var removePinsOnTheMap = function () {
     var createdPlacemarksOnTheMap = document.querySelectorAll('.map__pin-generated');
-    createdPlacemarksOnTheMap.forEach(function (item, index) {
-      createdPlacemarksOnTheMap[index].remove();
+    createdPlacemarksOnTheMap.forEach(function (createdPlacemarkOnTheMap) {
+      createdPlacemarkOnTheMap.remove();
     });
   };
 

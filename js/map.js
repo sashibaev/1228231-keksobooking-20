@@ -23,7 +23,7 @@ window.map = (function () {
 
       window.map.howToCreateMap();
 
-      cardElement = window.drawingCard.createNewCard(window.main.arrayOfAds[numberId]);
+      cardElement = window.drawingCard.createNewCard(window.main.newArrayOfAds[numberId]);
       var popupClose = map.querySelector('.popup__close');
 
       window.util.mouseAddEventListener(popupClose, cardElement);
