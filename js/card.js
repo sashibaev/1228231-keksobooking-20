@@ -8,12 +8,16 @@ window.card = (function () {
   var emptyValue = '';
 
   var checkingCondition = function (value, text1, text2, text3) {
-    if (value === MIN_NUMBER_OF_ROOMS) {
-      var textValue = text1;
-    } else if (value === MAX_NUMBER_OF_ROOMS) {
-      textValue = text3;
-    } else {
-      textValue = text2;
+    switch (value) {
+      case MIN_NUMBER_OF_ROOMS:
+        var textValue = text1;
+        break;
+      case MAX_NUMBER_OF_ROOMS:
+        textValue = text3;
+        break;
+      default:
+        textValue = text2;
+        break;
     }
     return textValue;
   };

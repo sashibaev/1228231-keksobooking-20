@@ -4,29 +4,32 @@ window.main = (function () {
   var KEY_ENTER = 13;
   var KEY_ESC = 27;
   var MAIN_MOUSE_BUTTON = 1;
-  var guestValueForm = '1';
+  var GUEST_VALUE_FORM = '1';
 
   var mainPlacemarkStyleLeft = 570;
   var mainPlacemarkStyleTop = 375;
   var activeMode = false;
   var arrayOfAds;
+  var newArrayOfAds;
 
   var main = document.querySelector('main');
   var adForm = document.querySelector('.ad-form');
-  var formMapFilter = document.querySelector('.map__filters');
-  var formFieldsSet = adForm.querySelectorAll('fieldset');
+  var filtersMapForm = document.querySelector('.map__filters');
+  var formFiltersFieldsets = filtersMapForm.querySelectorAll('fieldset');
+  var formFiltersSelectes = filtersMapForm.querySelectorAll('select');
+  var adFormFieldsets = adForm.querySelectorAll('fieldset');
   var map = document.querySelector('.map');
   var mapPinMain = document.querySelector('.map__pin--main');
   var buttonResetForm = document.querySelector('.ad-form__reset');
 
-  var addAttributeDisabled = function (element, index) {
-    element[index].setAttribute('disabled', 'disabled');
-    return element[index];
+  var addAttributeDisabled = function (element) {
+    element.setAttribute('disabled', 'disabled');
+    return element;
   };
 
-  var removeAttributeDisabled = function (element, index) {
-    element[index].removeAttribute('disabled', 'disabled');
-    return element[index];
+  var removeAttributeDisabled = function (element) {
+    element.removeAttribute('disabled', 'disabled');
+    return element;
   };
 
   adForm.setAttribute('action', 'https://javascript.pages.academy/keksobooking');
@@ -34,12 +37,16 @@ window.main = (function () {
   var disableStateOfThePage = function () {
     activeMode = false;
 
-    formFieldsSet.forEach(function (item, index) {
-      addAttributeDisabled(formFieldsSet, index);
+    adFormFieldsets.forEach(function (formFieldset) {
+      addAttributeDisabled(formFieldset);
     });
 
-    formMapFilter.childNodes.forEach(function (item, index) {
-      addAttributeDisabled(formMapFilter, index);
+    formFiltersSelectes.forEach(function (formFiltersSelect) {
+      addAttributeDisabled(formFiltersSelect);
+    });
+
+    formFiltersFieldsets.forEach(function (formFiltersFieldset) {
+      addAttributeDisabled(formFiltersFieldset);
     });
 
     map.classList.add('map--faded');
@@ -60,10 +67,11 @@ window.main = (function () {
 
     placemarkAddress.value = startCoordsX + ', ' + startCoordsY;
 
-    var guestOptionForm = adForm.querySelector('#capacity').getElementsByTagName('option');
-    for (var i = 0; i < guestOptionForm.length; i++) {
-      if (guestOptionForm[i].value === guestValueForm) {
-        guestOptionForm[i].selected = true;
+    var guestOptionsForm = adForm.querySelector('#capacity').getElementsByTagName('option');
+
+    for (var i = 0; i < guestOptionsForm.length; i++) {
+      if (guestOptionsForm[i].value === GUEST_VALUE_FORM) {
+        guestOptionsForm[i].selected = true;
         break;
       }
     }
@@ -78,18 +86,23 @@ window.main = (function () {
   });
 
   var activateThePage = function () {
+    window.main.newArrayOfAds = window.main.arrayOfAds;
 
-    window.pin.createPins(window.main.arrayOfAds);
+    window.pin.createPins(window.main.newArrayOfAds);
 
     map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
 
-    formFieldsSet.forEach(function (item, index) {
-      removeAttributeDisabled(formFieldsSet, index);
+    adFormFieldsets.forEach(function (formFieldset) {
+      removeAttributeDisabled(formFieldset);
     });
 
-    formMapFilter.childNodes.forEach(function (item, index) {
-      removeAttributeDisabled(formMapFilter, index);
+    formFiltersSelectes.forEach(function (formFiltersSelect) {
+      removeAttributeDisabled(formFiltersSelect);
+    });
+
+    formFiltersFieldsets.forEach(function (formFiltersFieldset) {
+      removeAttributeDisabled(formFiltersFieldset);
     });
   };
 
@@ -145,6 +158,7 @@ window.main = (function () {
     MAIN_MOUSE_BUTTON: MAIN_MOUSE_BUTTON,
     KEY_ESC: KEY_ESC,
     arrayOfAds: arrayOfAds,
+    newArrayOfAds: newArrayOfAds,
     activateThePage: activateThePage,
     disableStateOfThePage: disableStateOfThePage,
     setInitialDataForm: setInitialDataForm,

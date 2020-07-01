@@ -22,13 +22,19 @@ window.pin = (function () {
   var createPins = function (array) {
     var mapPins = document.querySelector('.map__pins');
     var fragment = document.createDocumentFragment();
+    var index = -1;
 
-    array.forEach(function (item, index) {
+    if (array.length > 5) {
+      array = array.slice(4);
+    }
+
+    array.forEach(function (item) {
       var markElement = pin.cloneNode(true);
 
       markElement.classList.add('map__pin-generated');
+      index++;
       markElement.setAttribute('id', index);
-      createNewElementMark(markElement, array[index]);
+      createNewElementMark(markElement, item);
 
       fragment.appendChild(markElement);
     });
