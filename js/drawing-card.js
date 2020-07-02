@@ -34,7 +34,7 @@ window.drawingCard = (function () {
     });
     popupPhotos.appendChild(fragment);
 
-    return (cardElement);
+    return cardElement;
   };
   return {
     createNewCard: createNewCard

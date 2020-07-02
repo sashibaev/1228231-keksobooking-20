@@ -82,7 +82,7 @@ window.main = (function () {
 
   window.load.getDataFromTheServer(function (data) {
     window.main.arrayOfAds = data;
-    return (window.main.arrayOfAds);
+    return window.main.arrayOfAds;
   });
 
   var activateThePage = function () {
