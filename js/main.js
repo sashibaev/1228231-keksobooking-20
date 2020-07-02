@@ -142,6 +142,7 @@ window.main = (function () {
   buttonResetForm.addEventListener('click', function (evt) {
     evt.preventDefault();
     adForm.reset();
+    filtersMapForm.reset();
 
     setInitialDataForm();
   });

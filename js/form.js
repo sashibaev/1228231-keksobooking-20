@@ -20,6 +20,7 @@ window.form = (function () {
   var timeinForm = adForm.querySelector('#timein');
   var timeoutForm = adForm.querySelector('#timeout');
   var buttonSubmitForm = document.querySelector('.ad-form__submit');
+  var filtersMapForm = document.querySelector('.map__filters');
 
   addressForm.setAttribute('readonly', 'readonly');
 
@@ -56,6 +57,7 @@ window.form = (function () {
     window.form.removePinsOnTheMap();
 
     adForm.reset();
+    filtersMapForm.reset();
     window.main.disableStateOfThePage();
     window.main.setInitialDataForm();
   };
