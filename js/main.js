@@ -6,8 +6,13 @@ window.main = (function () {
   var MAIN_MOUSE_BUTTON = 1;
   var GUEST_VALUE_FORM = '1';
 
-  var mainPlacemarkStyleLeft = 570;
-  var mainPlacemarkStyleTop = 375;
+  var CENTER_WIDTH_MAP = 600;
+  var CENTER_HEIGHT_MAP = 380;
+  var WIDTH_MAIN_PLACEMARK = 60;
+  var HEIGHT_MAIN_PLACEMARK = 70;
+
+  var mainPlacemarkStyleLeft = CENTER_WIDTH_MAP - WIDTH_MAIN_PLACEMARK / 2;
+  var mainPlacemarkStyleTop = CENTER_HEIGHT_MAP - HEIGHT_MAIN_PLACEMARK;
   var activeMode = false;
   var arrayOfAds;
   var newArrayOfAds;
@@ -57,8 +62,8 @@ window.main = (function () {
     var priceForm = adForm.querySelector('#price');
     var placemarkAddress = document.getElementById('address');
 
-    var startCoordsX = mainPlacemarkStyleLeft + window.pin.widthX;
-    var startCoordsY = mainPlacemarkStyleTop + window.pin.heightY;
+    var startCoordsX = mainPlacemarkStyleLeft + WIDTH_MAIN_PLACEMARK / 2;
+    var startCoordsY = mainPlacemarkStyleTop + HEIGHT_MAIN_PLACEMARK;
 
     priceForm.placeholder = '1000';
 
@@ -155,6 +160,8 @@ window.main = (function () {
   createElementClick('keydown', KEY_ENTER);
 
   return {
+    widthX: WIDTH_MAIN_PLACEMARK / 2,
+    heightY: HEIGHT_MAIN_PLACEMARK,
     MAIN_MOUSE_BUTTON: MAIN_MOUSE_BUTTON,
     KEY_ESC: KEY_ESC,
     arrayOfAds: arrayOfAds,
