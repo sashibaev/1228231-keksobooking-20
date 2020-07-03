@@ -150,6 +150,7 @@ window.main = (function () {
     setInitialDataForm();
     window.form.removePinsOnTheMap();
     window.pin.createPins(window.main.newArrayOfAds);
+    window.map.howToCreateMap();
     window.map.doWhenClicked();
   });
 
