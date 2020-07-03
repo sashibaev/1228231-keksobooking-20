@@ -47,48 +47,51 @@ window.filters = (function () {
   };
 
   filtersForm.addEventListener('change', function () {
-    window.map.howToCreateMap();
 
-    var housingTypeFilterValue = housingTypeFilter.value;
-    var newArrayOfAdsType = templateFilter(housingTypeFilter, housingTypeFilterValue, window.main.arrayOfAds, 'type');
+    window.debounce.debounceFilter(function () {
+      window.map.howToCreateMap();
 
-    switch (housingPriceFilter.value) {
-      case Value.ANY:
-        var newArrayOfAdsPrice = newArrayOfAdsType;
-        break;
-      case Value.MIDDLE:
-        newArrayOfAdsPrice = newArrayOfAdsType.filter(function (array) {
-          return array.offer.price >= 10000 && array.offer.price <= 50000;
-        });
-        break;
-      case Value.LOW:
-        newArrayOfAdsPrice = newArrayOfAdsType.filter(function (array) {
-          return array.offer.price < 10000;
-        });
-        break;
-      case Value.HIGH:
-        newArrayOfAdsPrice = newArrayOfAdsType.filter(function (array) {
-          return array.offer.price > 50000;
-        });
-        break;
-    }
-    var housingRoomsFilterValue = Number(housingRoomsFilter.value);
-    var newArrayOfAdsRooms = templateFilter(housingRoomsFilter, housingRoomsFilterValue, newArrayOfAdsPrice, 'rooms');
+      var housingTypeFilterValue = housingTypeFilter.value;
+      var newArrayOfAdsType = templateFilter(housingTypeFilter, housingTypeFilterValue, window.main.arrayOfAds, 'type');
 
-    var housingGuestsFilterValue = Number(housingGuestsFilter.value);
-    var newArrayOfAdsGuests = templateFilter(housingGuestsFilter, housingGuestsFilterValue, newArrayOfAdsRooms, 'guests');
+      switch (housingPriceFilter.value) {
+        case Value.ANY:
+          var newArrayOfAdsPrice = newArrayOfAdsType;
+          break;
+        case Value.MIDDLE:
+          newArrayOfAdsPrice = newArrayOfAdsType.filter(function (array) {
+            return array.offer.price >= 10000 && array.offer.price <= 50000;
+          });
+          break;
+        case Value.LOW:
+          newArrayOfAdsPrice = newArrayOfAdsType.filter(function (array) {
+            return array.offer.price < 10000;
+          });
+          break;
+        case Value.HIGH:
+          newArrayOfAdsPrice = newArrayOfAdsType.filter(function (array) {
+            return array.offer.price > 50000;
+          });
+          break;
+      }
 
-    var newArrayOfAdsCheckboxWifi = verifyCheckbox(wifiInputFilter, newArrayOfAdsGuests);
-    var newArrayOfAdsCheckboxDishwasher = verifyCheckbox(dishwasherInputFilter, newArrayOfAdsCheckboxWifi);
-    var newArrayOfAdsCheckboxParking = verifyCheckbox(parkingInputFilter, newArrayOfAdsCheckboxDishwasher);
-    var newArrayOfAdsCheckboxWasher = verifyCheckbox(washerInputFilter, newArrayOfAdsCheckboxParking);
-    var newArrayOfAdsCheckboxElevator = verifyCheckbox(elevatorInputFilter, newArrayOfAdsCheckboxWasher);
-    var newArrayOfAdsCheckboxConditioner = verifyCheckbox(conditionerInputFilter, newArrayOfAdsCheckboxElevator);
+      var housingRoomsFilterValue = Number(housingRoomsFilter.value);
+      var newArrayOfAdsRooms = templateFilter(housingRoomsFilter, housingRoomsFilterValue, newArrayOfAdsPrice, 'rooms');
 
-    console.log(newArrayOfAdsCheckboxConditioner);
-    window.main.newArrayOfAds = newArrayOfAdsCheckboxConditioner;
-    window.form.removePinsOnTheMap();
-    window.pin.createPins(window.main.newArrayOfAds);
-    window.map.doWhenClicked();
+      var housingGuestsFilterValue = Number(housingGuestsFilter.value);
+      var newArrayOfAdsGuests = templateFilter(housingGuestsFilter, housingGuestsFilterValue, newArrayOfAdsRooms, 'guests');
+
+      var newArrayOfAdsCheckboxWifi = verifyCheckbox(wifiInputFilter, newArrayOfAdsGuests);
+      var newArrayOfAdsCheckboxDishwasher = verifyCheckbox(dishwasherInputFilter, newArrayOfAdsCheckboxWifi);
+      var newArrayOfAdsCheckboxParking = verifyCheckbox(parkingInputFilter, newArrayOfAdsCheckboxDishwasher);
+      var newArrayOfAdsCheckboxWasher = verifyCheckbox(washerInputFilter, newArrayOfAdsCheckboxParking);
+      var newArrayOfAdsCheckboxElevator = verifyCheckbox(elevatorInputFilter, newArrayOfAdsCheckboxWasher);
+      var newArrayOfAdsCheckboxConditioner = verifyCheckbox(conditionerInputFilter, newArrayOfAdsCheckboxElevator);
+
+      window.main.newArrayOfAds = newArrayOfAdsCheckboxConditioner;
+      window.form.removePinsOnTheMap();
+      window.pin.createPins(window.main.newArrayOfAds);
+      window.map.doWhenClicked();
+    });
   });
 })();

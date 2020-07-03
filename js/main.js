@@ -19,10 +19,10 @@ window.main = (function () {
 
   var main = document.querySelector('main');
   var adForm = document.querySelector('.ad-form');
+  var adFormFieldsets = adForm.querySelectorAll('fieldset');
   var filtersMapForm = document.querySelector('.map__filters');
   var formFiltersFieldsets = filtersMapForm.querySelectorAll('fieldset');
   var formFiltersSelectes = filtersMapForm.querySelectorAll('select');
-  var adFormFieldsets = adForm.querySelectorAll('fieldset');
   var map = document.querySelector('.map');
   var mapPinMain = document.querySelector('.map__pin--main');
   var buttonResetForm = document.querySelector('.ad-form__reset');
@@ -141,10 +141,16 @@ window.main = (function () {
 
   buttonResetForm.addEventListener('click', function (evt) {
     evt.preventDefault();
+
+    window.main.newArrayOfAds = window.main.arrayOfAds;
+
     adForm.reset();
     filtersMapForm.reset();
 
     setInitialDataForm();
+    window.form.removePinsOnTheMap();
+    window.pin.createPins(window.main.newArrayOfAds);
+    window.map.doWhenClicked();
   });
 
   var createElementClick = function (element, elementClick) {
