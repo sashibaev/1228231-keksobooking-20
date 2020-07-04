@@ -6,18 +6,23 @@ window.main = (function () {
   var MAIN_MOUSE_BUTTON = 1;
   var GUEST_VALUE_FORM = '1';
 
-  var mainPlacemarkStyleLeft = 570;
-  var mainPlacemarkStyleTop = 375;
+  var CENTER_WIDTH_MAP = 600;
+  var CENTER_HEIGHT_MAP = 380;
+  var WIDTH_MAIN_PLACEMARK = 60;
+  var HEIGHT_MAIN_PLACEMARK = 70;
+
+  var mainPlacemarkStyleLeft = CENTER_WIDTH_MAP - WIDTH_MAIN_PLACEMARK / 2;
+  var mainPlacemarkStyleTop = CENTER_HEIGHT_MAP - HEIGHT_MAIN_PLACEMARK;
   var activeMode = false;
   var arrayOfAds;
   var newArrayOfAds;
 
   var main = document.querySelector('main');
   var adForm = document.querySelector('.ad-form');
+  var adFormFieldsets = adForm.querySelectorAll('fieldset');
   var filtersMapForm = document.querySelector('.map__filters');
   var formFiltersFieldsets = filtersMapForm.querySelectorAll('fieldset');
   var formFiltersSelectes = filtersMapForm.querySelectorAll('select');
-  var adFormFieldsets = adForm.querySelectorAll('fieldset');
   var map = document.querySelector('.map');
   var mapPinMain = document.querySelector('.map__pin--main');
   var buttonResetForm = document.querySelector('.ad-form__reset');
@@ -57,8 +62,8 @@ window.main = (function () {
     var priceForm = adForm.querySelector('#price');
     var placemarkAddress = document.getElementById('address');
 
-    var startCoordsX = mainPlacemarkStyleLeft + window.pin.widthX;
-    var startCoordsY = mainPlacemarkStyleTop + window.pin.heightY;
+    var startCoordsX = mainPlacemarkStyleLeft + WIDTH_MAIN_PLACEMARK / 2;
+    var startCoordsY = mainPlacemarkStyleTop + HEIGHT_MAIN_PLACEMARK;
 
     priceForm.placeholder = '1000';
 
@@ -82,7 +87,7 @@ window.main = (function () {
 
   window.load.getDataFromTheServer(function (data) {
     window.main.arrayOfAds = data;
-    return (window.main.arrayOfAds);
+    return window.main.arrayOfAds;
   });
 
   var activateThePage = function () {
@@ -136,9 +141,17 @@ window.main = (function () {
 
   buttonResetForm.addEventListener('click', function (evt) {
     evt.preventDefault();
+
+    window.main.newArrayOfAds = window.main.arrayOfAds;
+
     adForm.reset();
+    filtersMapForm.reset();
 
     setInitialDataForm();
+    window.form.removePinsOnTheMap();
+    window.pin.createPins(window.main.newArrayOfAds);
+    window.map.howToCreateMap();
+    window.map.doWhenClicked();
   });
 
   var createElementClick = function (element, elementClick) {
@@ -155,6 +168,8 @@ window.main = (function () {
   createElementClick('keydown', KEY_ENTER);
 
   return {
+    widthX: WIDTH_MAIN_PLACEMARK / 2,
+    heightY: HEIGHT_MAIN_PLACEMARK,
     MAIN_MOUSE_BUTTON: MAIN_MOUSE_BUTTON,
     KEY_ESC: KEY_ESC,
     arrayOfAds: arrayOfAds,

@@ -10,23 +10,36 @@ window.map = (function () {
     }
   };
 
+  var deactivationPin = function () {
+    var markActive = map.querySelector('.map__pin--active');
+    if (markActive) {
+      markActive.classList.remove('map__pin--active');
+    }
+  };
+
+  var closeElementClick = function (element, elementClick) {
+    var popupClose = map.querySelector('.popup__close');
+    popupClose.addEventListener(element, function (evt) {
+      if (evt.which === elementClick) {
+        cardElement.remove();
+        deactivationPin();
+      }
+    });
+  };
+
   var createPinCard = function (item) {
     item.addEventListener('click', function () {
-      var allMarks = map.querySelectorAll('.map__pin');
-
-      allMarks.forEach(function (mark) {
-        mark.classList.remove('map__pin--active');
-      });
+      deactivationPin();
 
       item.classList.add('map__pin--active');
       var numberId = item.getAttribute('id');
 
       window.map.howToCreateMap();
 
-      cardElement = window.drawingCard.createNewCard(window.main.arrayOfAds[numberId]);
-      var popupClose = map.querySelector('.popup__close');
+      cardElement = window.drawingCard.createNewCard(window.main.newArrayOfAds[numberId]);
 
-      window.util.mouseAddEventListener(popupClose, cardElement);
+      closeElementClick('mousedown', window.main.MAIN_MOUSE_BUTTON);
+      closeElementClick('keydown', window.main.KEY_ESC);
     });
   };
 
@@ -35,8 +48,6 @@ window.map = (function () {
 
     marksId.forEach(createPinCard);
   };
-
-  window.util.keyAddEventListener(map, cardElement);
 
   return {
     doWhenClicked: doWhenClicked,

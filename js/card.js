@@ -24,11 +24,10 @@ window.card = (function () {
 
   var checkingTheTextMissing = function (value1, value2, value3, value4, value5, value6) {
     if (value1 === emptyValue || value2 === emptyValue || value1 === NUMBER_ZERO || value2 === NUMBER_ZERO) {
-      var textContent = '';
-    } else {
-      textContent = value3 + value4 + value5 + value6;
+      return '';
     }
-    return textContent;
+
+    return value3 + value4 + value5 + value6;
   };
 
   var createNewElementCard = function (element, array) {

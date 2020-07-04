@@ -2,8 +2,8 @@
 
 window.movePin = (function () {
   var Map = {
-    LEFT_BORDER: -32,
-    RIGHT_BORDER: 1168,
+    LEFT_BORDER: -30,
+    RIGHT_BORDER: 1170,
     TOP_BORDER: 61,
     BOTTOM_BORDER: 559
   };
@@ -67,8 +67,8 @@ window.movePin = (function () {
         mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + 'px';
       }
 
-      var pinX = (mapPinMain.offsetLeft - shift.x) + window.pin.widthX;
-      var pinY = (mapPinMain.offsetTop - shift.y) + window.pin.heightY;
+      var pinX = (mapPinMain.offsetLeft - shift.x) + window.main.widthX;
+      var pinY = (mapPinMain.offsetTop - shift.y) + window.main.heightY;
 
       placemarkAddress.value = pinX + ', ' + pinY;
     };
