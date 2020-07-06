@@ -1,8 +1,8 @@
 'use strict';
 
 window.pin = (function () {
-  var WIDTH_OF_PLACEMARK = 40;
-  var HEIGHT_OF_PLACEMARK = 60;
+  var WIDTH_OF_PLACEMARK = 50;
+  var HEIGHT_OF_PLACEMARK = 70;
 
   var widthX = WIDTH_OF_PLACEMARK / 2;
   var heightY = HEIGHT_OF_PLACEMARK;

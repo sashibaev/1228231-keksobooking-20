@@ -9,7 +9,7 @@ window.main = (function () {
   var CENTER_WIDTH_MAP = 600;
   var CENTER_HEIGHT_MAP = 380;
   var WIDTH_MAIN_PLACEMARK = 60;
-  var HEIGHT_MAIN_PLACEMARK = 70;
+  var HEIGHT_MAIN_PLACEMARK = 80;
 
   var mainPlacemarkStyleLeft = CENTER_WIDTH_MAP - WIDTH_MAIN_PLACEMARK / 2;
   var mainPlacemarkStyleTop = CENTER_HEIGHT_MAP - HEIGHT_MAIN_PLACEMARK;
