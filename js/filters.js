@@ -58,14 +58,15 @@ window.filters = (function () {
   filtersForm.addEventListener('change', function () {
 
     window.debounce.debounceFilter(function () {
-      window.map.howToCreateMap();
-
+      var newArrayOfAdsPrice;
       var housingTypeFilterValue = housingTypeFilter.value;
       var newArrayOfAdsType = templateFilter(housingTypeFilter, housingTypeFilterValue, window.main.arrayOfAds, 'type');
 
+      window.map.howToCreateMap();
+
       switch (housingPriceFilter.value) {
         case Value.ANY:
-          var newArrayOfAdsPrice = newArrayOfAdsType;
+          newArrayOfAdsPrice = newArrayOfAdsType;
           break;
         case Value.MIDDLE:
           newArrayOfAdsPrice = newArrayOfAdsType.filter(function (array) {

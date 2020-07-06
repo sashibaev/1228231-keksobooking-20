@@ -19,11 +19,11 @@ window.drawingCard = (function () {
 
     var popupPhotos = document.querySelector('.popup__photos');
     var popupPhoto = document.querySelector('.popup__photo');
-    var srcPhotoList = array.offer.photos;
+    var srcPhotosList = array.offer.photos;
 
-    srcPhotoList.shift();
+    srcPhotosList.shift();
 
-    srcPhotoList.forEach(function (srcPhotoElement) {
+    srcPhotosList.forEach(function (srcPhotoElement) {
       var srcPhotosElement = srcPhotoElement;
 
       var photoElement = popupPhoto.cloneNode(true);

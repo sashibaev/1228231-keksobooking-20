@@ -6,13 +6,18 @@ window.main = (function () {
   var MAIN_MOUSE_BUTTON = 1;
   var GUEST_VALUE_FORM = '1';
 
-  var CENTER_WIDTH_MAP = 600;
-  var CENTER_HEIGHT_MAP = 380;
-  var WIDTH_MAIN_PLACEMARK = 60;
-  var HEIGHT_MAIN_PLACEMARK = 80;
+  var Map = {
+    CENTER_WIDTH: 600,
+    CENTER_HEIGHT: 380
+  };
 
-  var mainPlacemarkStyleLeft = CENTER_WIDTH_MAP - WIDTH_MAIN_PLACEMARK / 2;
-  var mainPlacemarkStyleTop = CENTER_HEIGHT_MAP - HEIGHT_MAIN_PLACEMARK;
+  var Placemark = {
+    WIDTH_MAIN: 60,
+    HEIGHT_MAIN: 80
+  };
+
+  var mainPlacemarkStyleLeft = Map.CENTER_WIDTH - Placemark.WIDTH_MAIN / 2;
+  var mainPlacemarkStyleTop = Map.CENTER_HEIGHT - Placemark.HEIGHT_MAIN;
   var activeMode = false;
   var arrayOfAds;
   var newArrayOfAds;
@@ -21,8 +26,8 @@ window.main = (function () {
   var adForm = document.querySelector('.ad-form');
   var adFormFieldsets = adForm.querySelectorAll('fieldset');
   var filtersMapForm = document.querySelector('.map__filters');
-  var formFiltersFieldsets = filtersMapForm.querySelectorAll('fieldset');
-  var formFiltersSelectes = filtersMapForm.querySelectorAll('select');
+  var formFiltersFieldset = filtersMapForm.querySelectorAll('fieldset');
+  var formFiltersSelect = filtersMapForm.querySelectorAll('select');
   var map = document.querySelector('.map');
   var mapPinMain = document.querySelector('.map__pin--main');
   var buttonResetForm = document.querySelector('.ad-form__reset');
@@ -46,12 +51,12 @@ window.main = (function () {
       addAttributeDisabled(formFieldset);
     });
 
-    formFiltersSelectes.forEach(function (formFiltersSelect) {
-      addAttributeDisabled(formFiltersSelect);
+    formFiltersSelect.forEach(function (formFilterSelect) {
+      addAttributeDisabled(formFilterSelect);
     });
 
-    formFiltersFieldsets.forEach(function (formFiltersFieldset) {
-      addAttributeDisabled(formFiltersFieldset);
+    formFiltersFieldset.forEach(function (formFilterFieldset) {
+      addAttributeDisabled(formFilterFieldset);
     });
 
     map.classList.add('map--faded');
@@ -62,8 +67,8 @@ window.main = (function () {
     var priceForm = adForm.querySelector('#price');
     var placemarkAddress = document.getElementById('address');
 
-    var startCoordsX = mainPlacemarkStyleLeft + WIDTH_MAIN_PLACEMARK / 2;
-    var startCoordsY = mainPlacemarkStyleTop + HEIGHT_MAIN_PLACEMARK;
+    var startCoordsX = mainPlacemarkStyleLeft + Placemark.WIDTH_MAIN / 2;
+    var startCoordsY = mainPlacemarkStyleTop + Placemark.HEIGHT_MAIN;
 
     priceForm.placeholder = '1000';
 
@@ -87,6 +92,7 @@ window.main = (function () {
 
   window.load.getDataFromTheServer(function (data) {
     window.main.arrayOfAds = data;
+
     return window.main.arrayOfAds;
   });
 
@@ -102,12 +108,12 @@ window.main = (function () {
       removeAttributeDisabled(formFieldset);
     });
 
-    formFiltersSelectes.forEach(function (formFiltersSelect) {
-      removeAttributeDisabled(formFiltersSelect);
+    formFiltersSelect.forEach(function (formFilterSelect) {
+      removeAttributeDisabled(formFilterSelect);
     });
 
-    formFiltersFieldsets.forEach(function (formFiltersFieldset) {
-      removeAttributeDisabled(formFiltersFieldset);
+    formFiltersFieldset.forEach(function (formFilterFieldset) {
+      removeAttributeDisabled(formFilterFieldset);
     });
   };
 
@@ -168,8 +174,8 @@ window.main = (function () {
   createElementClick('keydown', KEY_ENTER);
 
   return {
-    widthX: WIDTH_MAIN_PLACEMARK / 2,
-    heightY: HEIGHT_MAIN_PLACEMARK,
+    widthX: Placemark.WIDTH_MAIN / 2,
+    heightY: Placemark.HEIGHT_MAIN,
     MAIN_MOUSE_BUTTON: MAIN_MOUSE_BUTTON,
     KEY_ESC: KEY_ESC,
     arrayOfAds: arrayOfAds,
