@@ -22,6 +22,21 @@ window.pin = (function () {
     return element;
   };
 
+  var createPinHidden = function (elementObject, elementDom) {
+    var flagOffer = 0;
+    var pinOfferValues = Object.values(elementObject);
+
+    pinOfferValues.forEach(function (pinOfferValue) {
+      if (pinOfferValue !== undefined) {
+        flagOffer += 1;
+      }
+    });
+
+    if (flagOffer === 0) {
+      elementDom.classList.add('hidden');
+    }
+  };
+
   var createPins = function (array) {
     var mapPins = document.querySelector('.map__pins');
     var fragment = document.createDocumentFragment();
@@ -36,7 +51,9 @@ window.pin = (function () {
 
       markElement.classList.add('map__pin-generated');
       markElement.setAttribute('id', index);
+
       createNewElementMark(markElement, item);
+      createPinHidden(item.offer, markElement);
 
       fragment.appendChild(markElement);
 
