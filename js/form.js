@@ -7,6 +7,7 @@ window.form = (function () {
   var timeoutForm = adForm.querySelector('#timeout');
   var buttonSubmitForm = document.querySelector('.ad-form__submit');
   var filtersMapForm = document.querySelector('.map__filters');
+  var previewAvatar = document.querySelector('.ad-form-header__preview img');
 
   addressForm.setAttribute('readonly', 'readonly');
 
@@ -30,6 +31,8 @@ window.form = (function () {
 
     adForm.reset();
     filtersMapForm.reset();
+    previewAvatar.setAttribute('src', 'img/muffin-grey.svg');
+    window.fileForm.imgPhotoHouse.remove();
     window.main.disableStateOfThePage();
     window.main.setInitialDataForm();
   };
