@@ -25,12 +25,19 @@ window.pin = (function () {
   var createPinHidden = function (elementObject, elementDom) {
     var flagOffer = 0;
     var pinOfferValues = Object.values(elementObject);
-
+    /*
     pinOfferValues.forEach(function (pinOfferValue) {
       if (pinOfferValue !== undefined) {
         flagOffer += 1;
       }
-    });
+    });*/
+
+    for (var index = 0; index < pinOfferValues.length; index++) {
+      if (pinOfferValues[index] !== undefined) {
+        flagOffer = 1;
+        break;
+      }
+    }
 
     if (flagOffer === 0) {
       elementDom.classList.add('hidden');
