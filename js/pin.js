@@ -1,8 +1,8 @@
 'use strict';
 
 window.pin = (function () {
-  var WIDTH_OF_PLACEMARK = 40;
-  var HEIGHT_OF_PLACEMARK = 60;
+  var WIDTH_OF_PLACEMARK = 50;
+  var HEIGHT_OF_PLACEMARK = 70;
 
   var widthX = WIDTH_OF_PLACEMARK / 2;
   var heightY = HEIGHT_OF_PLACEMARK;
@@ -22,6 +22,22 @@ window.pin = (function () {
     return element;
   };
 
+  var createPinHidden = function (elementObject, elementDom) {
+    var flagOffer = 0;
+    var pinOfferValues = Object.values(elementObject);
+
+    for (var index = 0; index < pinOfferValues.length; index++) {
+      if (pinOfferValues[index] !== undefined) {
+        flagOffer = 1;
+        break;
+      }
+    }
+
+    if (flagOffer === 0) {
+      elementDom.classList.add('hidden');
+    }
+  };
+
   var createPins = function (array) {
     var mapPins = document.querySelector('.map__pins');
     var fragment = document.createDocumentFragment();
@@ -36,7 +52,9 @@ window.pin = (function () {
 
       markElement.classList.add('map__pin-generated');
       markElement.setAttribute('id', index);
+
       createNewElementMark(markElement, item);
+      createPinHidden(item.offer, markElement);
 
       fragment.appendChild(markElement);
 

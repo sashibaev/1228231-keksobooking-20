@@ -8,6 +8,13 @@ window.filters = (function () {
     HIGH: 'high'
   };
 
+  var Price = {
+    MAX_LOW: 10000,
+    MIN_MIDDLE: 10000,
+    MAX_MIDDLE: 50000,
+    MIN_HIGH: 50000
+  };
+
   var filtersForm = document.querySelector('.map__filters');
   var housingTypeFilter = filtersForm.querySelector('#housing-type');
   var housingPriceFilter = filtersForm.querySelector('#housing-price');
@@ -24,12 +31,14 @@ window.filters = (function () {
   var verifyCheckbox = function (element, arrayElement) {
     if (element.checked) {
       return arrayElement.filter(function (array) {
-        for (var i = 0; i < array.offer.features.length; i++) {
-          if (array.offer.features[i] === element.value) {
-            var arrayOfferFeatures = array.offer.features[i];
+        var arrayOfferFeatures;
+        array.offer.features.forEach(function (feature) {
+          if (feature === element.value) {
+            arrayOfferFeatures = feature;
           }
-        }
-        return arrayOfferFeatures;
+        });
+
+        return arrayOfferFeatures && arrayOfferFeatures.length > 0;
       });
     }
 
@@ -49,28 +58,29 @@ window.filters = (function () {
   filtersForm.addEventListener('change', function () {
 
     window.debounce.debounceFilter(function () {
-      window.map.howToCreateMap();
-
+      var newArrayOfAdsPrice;
       var housingTypeFilterValue = housingTypeFilter.value;
       var newArrayOfAdsType = templateFilter(housingTypeFilter, housingTypeFilterValue, window.main.arrayOfAds, 'type');
 
+      window.map.howToCreateMap();
+
       switch (housingPriceFilter.value) {
         case Value.ANY:
-          var newArrayOfAdsPrice = newArrayOfAdsType;
+          newArrayOfAdsPrice = newArrayOfAdsType;
           break;
         case Value.MIDDLE:
           newArrayOfAdsPrice = newArrayOfAdsType.filter(function (array) {
-            return array.offer.price >= 10000 && array.offer.price <= 50000;
+            return array.offer.price >= Price.MIN_MIDDLE && array.offer.price <= Price.MAX_MIDDLE;
           });
           break;
         case Value.LOW:
           newArrayOfAdsPrice = newArrayOfAdsType.filter(function (array) {
-            return array.offer.price < 10000;
+            return array.offer.price < Price.MAX_LOW;
           });
           break;
         case Value.HIGH:
           newArrayOfAdsPrice = newArrayOfAdsType.filter(function (array) {
-            return array.offer.price > 50000;
+            return array.offer.price > Price.MIN_HIGH;
           });
           break;
       }
