@@ -34,11 +34,13 @@ window.main = (function () {
 
   var addAttributeDisabled = function (element) {
     element.setAttribute('disabled', 'disabled');
+
     return element;
   };
 
   var removeAttributeDisabled = function (element) {
     element.removeAttribute('disabled', 'disabled');
+
     return element;
   };
 
