@@ -10,7 +10,7 @@ window.movePin = (function () {
 
   var mapPinMain = document.querySelector('.map__pin--main');
   var placemarkAddress = document.querySelector('#address');
-  var activeMode = false;
+  // var activeMode = false;
 
   mapPinMain.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
@@ -88,10 +88,11 @@ window.movePin = (function () {
         document.addEventListener('click', onClickPreventDefault);
       } else {
 
-        if (evt.which === window.main.MAIN_MOUSE_BUTTON && activeMode === false) {
+        if (evt.which === window.main.MAIN_MOUSE_BUTTON && window.main.activeMode === false) {
           window.main.activateThePage();
-          activeMode = true;
+          window.main.activeMode = true;
         }
+
         window.map.doWhenClicked();
       }
     };

@@ -94,19 +94,14 @@ window.main = (function () {
   var requestDataFromTheServer = function () {
     window.backend.getDataFromTheServer(function (data) {
       window.main.arrayOfAds = data;
+      window.main.newArrayOfAds = window.main.arrayOfAds;
 
-      return window.main.arrayOfAds;
+      window.pin.createPins(window.main.newArrayOfAds);
     });
   };
 
   var activateThePage = function () {
     requestDataFromTheServer();
-
-    window.debounce.debounceFilter(function () {
-      window.main.newArrayOfAds = window.main.arrayOfAds;
-
-      window.pin.createPins(window.main.newArrayOfAds);
-    });
 
     map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
@@ -153,7 +148,7 @@ window.main = (function () {
 
   var createElementClick = function (element, elementClick) {
     mapPinMain.addEventListener(element, function (evt) {
-      if (evt.which === elementClick && activeMode === false) {
+      if (evt.keyCode === elementClick && activeMode === false) {
         window.main.activateThePage();
         activeMode = true;
       }
@@ -161,7 +156,6 @@ window.main = (function () {
     });
   };
 
-  createElementClick('mousedown', MAIN_MOUSE_BUTTON);
   createElementClick('keydown', KEY_ENTER);
 
   return {
@@ -171,6 +165,7 @@ window.main = (function () {
     KEY_ESC: KEY_ESC,
     arrayOfAds: arrayOfAds,
     newArrayOfAds: newArrayOfAds,
+    activeMode: activeMode,
     activateThePage: activateThePage,
     disableStateOfThePage: disableStateOfThePage,
     setInitialDataForm: setInitialDataForm,
