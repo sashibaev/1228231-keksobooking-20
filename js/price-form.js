@@ -13,7 +13,7 @@ window.priceForm = (function () {
   var typeForm = document.querySelector('#type');
 
   priceForm.addEventListener('invalid', function () {
-    if (priceForm.validaty.valueMissing) {
+    if (priceForm.validity.valueMissing) {
       priceForm.setCustomValidity('Обязательное поле для заполнения');
     } else {
       priceForm.setCustomValidity('');

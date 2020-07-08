@@ -7,7 +7,7 @@ window.titleForm = (function () {
   var titleForm = document.querySelector('#title');
 
   titleForm.addEventListener('invalid', function () {
-    if (titleForm.validaty.valueMissing) {
+    if (titleForm.validity.valueMissing) {
       titleForm.setCustomValidity('Обязательное поле для заполнения');
     } else {
       titleForm.setCustomValidity('');

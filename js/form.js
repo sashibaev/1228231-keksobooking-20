@@ -32,7 +32,11 @@ window.form = (function () {
     adForm.reset();
     filtersMapForm.reset();
     previewAvatar.setAttribute('src', 'img/muffin-grey.svg');
-    window.fileForm.imgPhotoHouse.remove();
+
+    if (window.fileForm.imgPhotoHouse) {
+      window.fileForm.imgPhotoHouse.remove();
+    }
+
     window.main.disableStateOfThePage();
     window.main.setInitialDataForm();
   };
