@@ -8,6 +8,7 @@ window.form = (function () {
   var buttonSubmitForm = document.querySelector('.ad-form__submit');
   var filtersMapForm = document.querySelector('.map__filters');
   var previewAvatar = document.querySelector('.ad-form-header__preview img');
+  var buttonResetForm = document.querySelector('.ad-form__reset');
 
   addressForm.setAttribute('readonly', 'readonly');
 
@@ -43,8 +44,13 @@ window.form = (function () {
 
   adForm.addEventListener('submit', function (evt) {
     if (evt.target !== buttonSubmitForm) {
-      window.upload.toSendDataFromTheServer(new FormData(adForm), window.main.createSuccessfulFormSubmission, window.main.createErrorFormSubmission);
+      window.backend.toSendDataFromTheServer(new FormData(adForm), window.main.createSuccessfulFormSubmission, window.main.createErrorFormSubmission);
     }
+    evt.preventDefault();
+    successfullySubmitTheForm();
+  });
+
+  buttonResetForm.addEventListener('click', function (evt) {
     evt.preventDefault();
     successfullySubmitTheForm();
   });

@@ -17,10 +17,19 @@ window.map = (function () {
     }
   };
 
-  var closeElementClick = function (element, elementClick) {
+  var closeElementClickMouse = function (element, elementClick) {
     var popupClose = map.querySelector('.popup__close');
     popupClose.addEventListener(element, function (evt) {
       if (evt.which === elementClick) {
+        cardElement.remove();
+        deactivationPin();
+      }
+    });
+  };
+
+  var closeElementClickKey = function (element, elementClick) {
+    map.addEventListener(element, function (evt) {
+      if (evt.keyCode === elementClick) {
         cardElement.remove();
         deactivationPin();
       }
@@ -38,8 +47,8 @@ window.map = (function () {
 
       cardElement = window.drawingCard.createNewCard(window.main.newArrayOfAds[numberId]);
 
-      closeElementClick('mousedown', window.main.MAIN_MOUSE_BUTTON);
-      closeElementClick('keydown', window.main.KEY_ESC);
+      closeElementClickMouse('mousedown', window.main.MAIN_MOUSE_BUTTON);
+      closeElementClickKey('keydown', window.main.KEY_ESC);
     });
   };
 

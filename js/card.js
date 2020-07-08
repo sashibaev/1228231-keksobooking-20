@@ -8,9 +8,10 @@ window.card = (function () {
   var emptyValue = '';
 
   var checkingCondition = function (value, text1, text2, text3) {
+    var textValue;
     switch (value) {
       case MIN_NUMBER_OF_ROOMS:
-        var textValue = text1;
+        textValue = text1;
         break;
       case MAX_NUMBER_OF_ROOMS:
         textValue = text3;

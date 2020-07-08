@@ -30,7 +30,6 @@ window.main = (function () {
   var formFiltersSelect = filtersMapForm.querySelectorAll('select');
   var map = document.querySelector('.map');
   var mapPinMain = document.querySelector('.map__pin--main');
-  var buttonResetForm = document.querySelector('.ad-form__reset');
 
   var addAttributeDisabled = function (element) {
     element.setAttribute('disabled', 'disabled');
@@ -92,16 +91,22 @@ window.main = (function () {
   disableStateOfThePage();
   setInitialDataForm();
 
-  window.load.getDataFromTheServer(function (data) {
-    window.main.arrayOfAds = data;
+  var requestDataFromTheServer = function () {
+    window.backend.getDataFromTheServer(function (data) {
+      window.main.arrayOfAds = data;
 
-    return window.main.arrayOfAds;
-  });
+      return window.main.arrayOfAds;
+    });
+  };
 
   var activateThePage = function () {
-    window.main.newArrayOfAds = window.main.arrayOfAds;
+    requestDataFromTheServer();
 
-    window.pin.createPins(window.main.newArrayOfAds);
+    window.debounce.debounceFilter(function () {
+      window.main.newArrayOfAds = window.main.arrayOfAds;
+
+      window.pin.createPins(window.main.newArrayOfAds);
+    });
 
     map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
@@ -145,22 +150,6 @@ window.main = (function () {
     window.util.keyAddEventListener(main, newMessage, KEY_ESC);
     window.util.keyAddEventListener(buttonError, newMessage, KEY_ENTER);
   };
-
-
-  buttonResetForm.addEventListener('click', function (evt) {
-    evt.preventDefault();
-
-    window.main.newArrayOfAds = window.main.arrayOfAds;
-
-    adForm.reset();
-    filtersMapForm.reset();
-
-    setInitialDataForm();
-    window.form.removePinsOnTheMap();
-    window.pin.createPins(window.main.newArrayOfAds);
-    window.map.howToCreateMap();
-    window.map.doWhenClicked();
-  });
 
   var createElementClick = function (element, elementClick) {
     mapPinMain.addEventListener(element, function (evt) {

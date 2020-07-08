@@ -4,8 +4,8 @@ window.movePin = (function () {
   var Map = {
     LEFT_BORDER: -30,
     RIGHT_BORDER: 1170,
-    TOP_BORDER: 130,
-    BOTTOM_BORDER: 630
+    TOP_BORDER: 51,
+    BOTTOM_BORDER: 549
   };
 
   var mapPinMain = document.querySelector('.map__pin--main');

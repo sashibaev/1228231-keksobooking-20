@@ -1,6 +1,12 @@
 'use strict';
 
 window.priceForm = (function () {
+  var MinPrice = {
+    BUNGALO: 0,
+    FLAT: 1000,
+    HOUSE: 5000,
+    PALACE: 10000
+  };
   var MAX_PRICE = 1000000;
 
   var minPrice = 1000;
@@ -39,19 +45,19 @@ window.priceForm = (function () {
   typeForm.addEventListener('change', function () {
     switch (typeForm.value) {
       case typeOfHousingBungalo:
-        minPrice = 0;
+        minPrice = MinPrice.BUNGALO;
         priceForm.placeholder = '0';
         break;
       case typeOfHousingFlat:
-        minPrice = 1000;
+        minPrice = MinPrice.FLAT;
         priceForm.placeholder = '1000';
         break;
       case typeOfHousingHouse:
-        minPrice = 5000;
+        minPrice = MinPrice.HOUSE;
         priceForm.placeholder = '5000';
         break;
       case typeOfHousingPalace:
-        minPrice = 10000;
+        minPrice = MinPrice.PALACE;
         priceForm.placeholder = '10000';
         break;
     }
