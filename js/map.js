@@ -53,9 +53,11 @@ window.map = (function () {
   };
 
   var doWhenClicked = function () {
-    var marksId = document.querySelectorAll('.map__pin-generated');
+    window.setTimeout(function () {
+      var marksId = document.querySelectorAll('.map__pin-generated');
 
-    marksId.forEach(createPinCard);
+      marksId.forEach(createPinCard);
+    }, 100);
   };
 
   return {

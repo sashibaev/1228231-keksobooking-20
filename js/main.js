@@ -148,7 +148,7 @@ window.main = (function () {
 
   var createElementClick = function (element, elementClick) {
     mapPinMain.addEventListener(element, function (evt) {
-      if (evt.keyCode === elementClick && activeMode === false) {
+      if (evt.which === elementClick && activeMode === false) {
         window.main.activateThePage();
         activeMode = true;
       }
@@ -156,6 +156,7 @@ window.main = (function () {
     });
   };
 
+  createElementClick('mousedown', MAIN_MOUSE_BUTTON);
   createElementClick('keydown', KEY_ENTER);
 
   return {
@@ -170,6 +171,7 @@ window.main = (function () {
     disableStateOfThePage: disableStateOfThePage,
     setInitialDataForm: setInitialDataForm,
     createSuccessfulFormSubmission: createSuccessfulFormSubmission,
-    createErrorFormSubmission: createErrorFormSubmission
+    createErrorFormSubmission: createErrorFormSubmission,
+    createElementClick: createElementClick
   };
 })();

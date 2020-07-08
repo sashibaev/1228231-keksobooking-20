@@ -88,12 +88,7 @@ window.movePin = (function () {
         document.addEventListener('click', onClickPreventDefault);
       } else {
 
-        if (evt.which === window.main.MAIN_MOUSE_BUTTON && window.main.activeMode === false) {
-          window.main.activateThePage();
-          window.main.activeMode = true;
-        }
-
-        window.map.doWhenClicked();
+        window.main.createElementClick('mousedown', window.main.MAIN_MOUSE_BUTTON);
       }
     };
 
