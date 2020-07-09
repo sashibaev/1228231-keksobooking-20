@@ -38,6 +38,7 @@ window.form = (function () {
       window.fileForm.imgPhotoHouse.remove();
     }
 
+    window.map.howToCreateMap();
     window.main.disableStateOfThePage();
     window.main.setInitialDataForm();
   };

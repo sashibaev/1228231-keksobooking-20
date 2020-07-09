@@ -53,11 +53,13 @@ window.map = (function () {
   };
 
   var doWhenClicked = function () {
-    window.setTimeout(function () {
-      var marksId = document.querySelectorAll('.map__pin-generated');
+    // window.setTimeout(function () {
+    var marksId = document.querySelectorAll('.map__pin-generated');
 
-      marksId.forEach(createPinCard);
-    }, 100);
+    marksId.forEach(function (item) {
+      createPinCard(item);
+    });
+    // }, 100);
   };
 
   return {

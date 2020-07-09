@@ -1,9 +1,9 @@
 'use strict';
 
 window.util = (function () {
-  var mouseAddEventListener = function (body, element) {
+  var mouseAddEventListener = function (body, element, elementClick) {
     body.addEventListener('mousedown', function (evt) {
-      if (evt.which === window.main.MAIN_MOUSE_BUTTON) {
+      if (evt.which === elementClick) {
         element.remove();
       }
     });

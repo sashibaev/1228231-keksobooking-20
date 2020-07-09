@@ -8,6 +8,8 @@ window.drawingCard = (function () {
       .querySelector('.map__card');
 
   var createNewCard = function (array) {
+    var srcPhotosElement;
+    var srcPhotosList;
 
     var mapFilter = document.querySelector('.map__filters-container');
     var fragment = document.createDocumentFragment();
@@ -19,12 +21,12 @@ window.drawingCard = (function () {
 
     var popupPhotos = document.querySelector('.popup__photos');
     var popupPhoto = document.querySelector('.popup__photo');
-    var srcPhotosList = array.offer.photos;
+    srcPhotosList = array.offer.photos;
 
     srcPhotosList.shift();
 
     srcPhotosList.forEach(function (srcPhotoElement) {
-      var srcPhotosElement = srcPhotoElement;
+      srcPhotosElement = srcPhotoElement;
 
       var photoElement = popupPhoto.cloneNode(true);
       photoElement.classList.add('popup__photo');

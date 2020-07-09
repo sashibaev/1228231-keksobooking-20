@@ -97,6 +97,8 @@ window.main = (function () {
       window.main.newArrayOfAds = window.main.arrayOfAds;
 
       window.pin.createPins(window.main.newArrayOfAds);
+
+      return window.main.newArrayOfAds;
     });
   };
 
@@ -127,7 +129,7 @@ window.main = (function () {
     var newMessage = successfulForm.cloneNode(true);
     main.appendChild(newMessage);
 
-    window.util.mouseAddEventListener(main, newMessage);
+    window.util.mouseAddEventListener(main, newMessage, MAIN_MOUSE_BUTTON);
     window.util.keyAddEventListener(main, newMessage, KEY_ESC);
   };
 
@@ -141,7 +143,7 @@ window.main = (function () {
     var buttonError = document.querySelector('.error__button');
     buttonError.setAttribute('tabindex', '0');
 
-    window.util.mouseAddEventListener(main, newMessage);
+    window.util.mouseAddEventListener(main, newMessage, MAIN_MOUSE_BUTTON);
     window.util.keyAddEventListener(main, newMessage, KEY_ESC);
     window.util.keyAddEventListener(buttonError, newMessage, KEY_ENTER);
   };
@@ -151,6 +153,7 @@ window.main = (function () {
       if (evt.which === elementClick && activeMode === false) {
         window.main.activateThePage();
         activeMode = true;
+        window.map.doWhenClicked();
       }
       window.map.doWhenClicked();
     });

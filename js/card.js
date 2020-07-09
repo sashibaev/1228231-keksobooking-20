@@ -8,19 +8,14 @@ window.card = (function () {
   var emptyValue = '';
 
   var checkingCondition = function (value, text1, text2, text3) {
-    var textValue;
     switch (value) {
       case MIN_NUMBER_OF_ROOMS:
-        textValue = text1;
-        break;
+        return text1;
       case MAX_NUMBER_OF_ROOMS:
-        textValue = text3;
-        break;
+        return text3;
       default:
-        textValue = text2;
-        break;
+        return text2;
     }
-    return textValue;
   };
 
   var checkingTheTextMissing = function (value1, value2, value3, value4, value5, value6) {
