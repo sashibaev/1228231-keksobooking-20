@@ -91,19 +91,19 @@ window.main = (function () {
   disableStateOfThePage();
   setInitialDataForm();
 
-  var requestDataFromTheServer = function () {
-    window.backend.getDataFromTheServer(function (data) {
+  var requestDataFromTheServer = function (requestCallback) {
+    window.backend.loadDataFromTheServer(function (data) {
       window.main.arrayOfAds = data;
       window.main.newArrayOfAds = window.main.arrayOfAds;
 
       window.pin.createPins(window.main.newArrayOfAds);
 
-      return window.main.newArrayOfAds;
+      requestCallback();
     });
   };
 
-  var activateThePage = function () {
-    requestDataFromTheServer();
+  var activateThePage = function (requestCallback) {
+    requestDataFromTheServer(requestCallback);
 
     map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
@@ -151,11 +151,9 @@ window.main = (function () {
   var createElementClick = function (element, elementClick) {
     mapPinMain.addEventListener(element, function (evt) {
       if (evt.which === elementClick && activeMode === false) {
-        window.main.activateThePage();
+        activateThePage(window.map.doWhenClicked);
         activeMode = true;
-        window.map.doWhenClicked();
       }
-      window.map.doWhenClicked();
     });
   };
 

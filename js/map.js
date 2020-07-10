@@ -43,7 +43,7 @@ window.map = (function () {
       item.classList.add('map__pin--active');
       var numberId = item.getAttribute('id');
 
-      window.map.howToCreateMap();
+      howToCreateMap();
 
       cardElement = window.drawingCard.createNewCard(window.main.newArrayOfAds[numberId]);
 
@@ -53,13 +53,9 @@ window.map = (function () {
   };
 
   var doWhenClicked = function () {
-    // window.setTimeout(function () {
     var marksId = document.querySelectorAll('.map__pin-generated');
 
-    marksId.forEach(function (item) {
-      createPinCard(item);
-    });
-    // }, 100);
+    marksId.forEach(createPinCard);
   };
 
   return {

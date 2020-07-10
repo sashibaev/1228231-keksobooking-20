@@ -28,7 +28,7 @@ window.form = (function () {
   };
 
   var successfullySubmitTheForm = function () {
-    window.form.removePinsOnTheMap();
+    removePinsOnTheMap();
 
     adForm.reset();
     filtersMapForm.reset();
@@ -45,7 +45,7 @@ window.form = (function () {
 
   adForm.addEventListener('submit', function (evt) {
     if (evt.target !== buttonSubmitForm) {
-      window.backend.toSendDataFromTheServer(new FormData(adForm), window.main.createSuccessfulFormSubmission, window.main.createErrorFormSubmission);
+      window.backend.saveDataFromTheServer(new FormData(adForm), window.main.createSuccessfulFormSubmission, window.main.createErrorFormSubmission);
     }
     evt.preventDefault();
     successfullySubmitTheForm();

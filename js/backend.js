@@ -38,16 +38,16 @@ window.backend = (function () {
     xhr.send(data);
   };
 
-  var getDataFromTheServer = function (onSuccess, onError) {
+  var loadDataFromTheServer = function (onSuccess, onError) {
     exchangeDataWithTheServer('', onSuccess, onError, METHOD_GET, URL_LOAD);
   };
 
-  var toSendDataFromTheServer = function (data, onSuccess, onError) {
+  var saveDataFromTheServer = function (data, onSuccess, onError) {
     exchangeDataWithTheServer(data, onSuccess, onError, METHOD_POST, URL_UPLOAD);
   };
 
   return {
-    getDataFromTheServer: getDataFromTheServer,
-    toSendDataFromTheServer: toSendDataFromTheServer
+    loadDataFromTheServer: loadDataFromTheServer,
+    saveDataFromTheServer: saveDataFromTheServer
   };
 })();
